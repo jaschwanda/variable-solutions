@@ -90,7 +90,9 @@ You can find the format string parameter reference here: <a href="http://php.net
 
 ![Variable List Page](https://user-images.githubusercontent.com/16763256/32197597-40eb1c98-bd9b-11e7-938e-cf46aefd9973.png "Variable Llist Page")
 Screen Image 1 - Variable List Page
-<br />
+
+<br>
+
 ![Add Variable Page](https://user-images.githubusercontent.com/16763256/32197596-40df18b2-bd9b-11e7-8477-3a460bbe7740.png "Add Variable Page")
 Screen Image 2 - Add Variable Page
 
