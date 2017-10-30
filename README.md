@@ -86,7 +86,10 @@ You can then specify how the date will be displayed when WordPress processes the
 Will display ` January 1st, 1970 `, which is the format specified by the ` F js, Y ` string. 
 You can find the format string parameter reference here: <a href="http://php.net/manual/en/function.date.php">php.net/manual/en/function.date.php</a>.
 
-![alt tag](https://www.ka-lehigh.org/layout/images/kappa-alpha-lodge-photo-880x295-front.jpg "Description goes here")
+## Screenshots##
+
+![screen-add-variable](https://user-images.githubusercontent.com/16763256/32197596-40df18b2-bd9b-11e7-8477-3a460bbe7740.png)
+![screen-variable-list](https://user-images.githubusercontent.com/16763256/32197597-40eb1c98-bd9b-11e7-938e-cf46aefd9973.png)
 
 ## License ##
 > Variable-Solutions is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License 
