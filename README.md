@@ -4,7 +4,7 @@ The Variable-Solutions plugin adds global variables to the WordPress content man
 
 ## Description ##
 
-The Variable-Solutions plugin extends WordPress enabling the creation and management of variables that can be referenced as short codes in WordPress content and/or as defined variables in the supporting PHP files. It is a thin plugin and loads only one file when running in end user mode. The Variable-Solutions plugin is developed and maintained by <a href="https://www.usi2solve.com" target="_blank">Universal Solutions</a>.
+The Variable-Solutions plugin extends WordPress enabling the creation and management of variables that can be referenced as short codes in WordPress content and/or as defined variables in the supporting PHP files. It is a thin plugin and loads only one file when running in end user mode. The Variable-Solutions plugin is developed and maintained by <a href="https://www.usi2solve.com">Universal Solutions</a>.
 
 **What are Variables** - Say you have some information that changes frequently and appears on multiple pages.
 It could be the date of your next big event or even the product of the month. 
@@ -86,6 +86,7 @@ You can then specify how the date will be displayed when WordPress processes the
 Will display ` January 1st, 1970 `, which is the format specified by the ` F js, Y ` string. 
 You can find the format string parameter reference here: <a href="http://php.net/manual/en/function.date.php">php.net/manual/en/function.date.php</a>.
 
+![alt tag](https://www.ka-lehigh.org/layout/images/kappa-alpha-lodge-photo-880x295-front.jpg "Description goes here")
 
 ## License ##
 > Variable-Solutions is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License 
