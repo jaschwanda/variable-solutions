@@ -83,16 +83,17 @@ You can then specify how the date will be displayed when WordPress processes the
 [variable category="date" item="unix_epoch" format="F js, Y"]
 ```
 
-Will display ` January 1st, 1970 `, which is the format specified by the ` F js, Y ` string. 
+will display ` January 1st, 1970 `, which is the format specified by the ` F js, Y ` string. 
 You can find the format string parameter reference here: <a href="http://php.net/manual/en/function.date.php">php.net/manual/en/function.date.php</a>.
 
-## Screenshots ##
+## Screen Images ##
 
 ![Variable List Page](https://user-images.githubusercontent.com/16763256/32197597-40eb1c98-bd9b-11e7-938e-cf46aefd9973.png "Variable Llist Page")
-Screenshot 1 - Variable List Page
+Screen Image 1 - Variable List Page
+
 
 ![Add Variable Page](https://user-images.githubusercontent.com/16763256/32197596-40df18b2-bd9b-11e7-8477-3a460bbe7740.png "Add Variable Page")
-Screenshot 2 - Add Variable Page
+Screen Image 2 - Add Variable Page
 
 ## License ##
 > Variable-Solutions is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License 
