@@ -232,7 +232,7 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
 
    function filter_plugin_row_meta($links, $file) {
       if (false !== strpos($file, USI_Variable_Solutions::TEXTDOMAIN)) {
-         $links[] = '<a href="https://www.usi2solve.com/wordpress/donate/variable-solutions" target="_blank">' . 
+         $links[] = '<a href="https://www.usi2solve.com/donate/variable-solutions" target="_blank">' . 
             __('Donate', USI_Variable_Solutions::TEXTDOMAIN) . '</a>';
       }
       return($links);
