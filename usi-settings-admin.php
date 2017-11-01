@@ -6,7 +6,7 @@ require_once('usi-settings.php');
 
 if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
 
-   const VERSION = '1.0.0 (2017-10-29)';
+   const VERSION = '1.0.1 (2017-11-01)';
 
    protected $is_tabbed = false;
    protected $sections = null;
@@ -129,8 +129,8 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
       $class    = !empty($args['class']) ? ' class="' . $args['class'] . '"' : null;
       $name     = !empty($args['name'])  ? ' name="'  . $args['name']  . '"' : null;
 
-      $min      = !empty($args['min'])   ? ' min="'   . $args['min']   . '"' : null;
-      $max      = !empty($args['max'])   ? ' max="'   . $args['max']   . '"' : null;
+      $min      = isset($args['min'])    ? ' min="'   . $args['min']   . '"' : null;
+      $max      = isset($args['max'])    ? ' max="'   . $args['max']   . '"' : null;
 
       $readonly = !empty($args['readonly']) ? ('checkbox' == $type ? ' disabled' : ' readonly') : null;
       $value    = !empty($args['value']) ? esc_attr($args['value']) : ('number' == $type ? 0 : null);
