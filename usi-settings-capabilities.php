@@ -4,7 +4,7 @@ defined('ABSPATH') or die('Accesss not allowed.');
 
 if (!class_exists('USI_Settings_Capabilities')) { class USI_Settings_Capabilities {
 
-   const VERSION = '1.0.0 (2017-10-29)';
+   const VERSION = '1.0.1 (2017-11-02)';
 
    private $capabilities = null;
    private $disable_save = true;
@@ -103,9 +103,8 @@ if (!class_exists('USI_Settings_Capabilities')) { class USI_Settings_Capabilitie
 
          if ($this->prefix_select_user != $_POST[$prefix_role_id]) {
 
-            $role = $this->role;
-
-            if ('administrator' == $_POST[$prefix_role_id]) {
+            if (!($role = $this->role)) {
+            } else if ('administrator' == $_POST[$prefix_role_id]) {
                foreach ($this->capabilities as $name => $capability) {
                   $capability_name = $this->name . '-' . $name;
                   $role->add_cap($capability_name);
