@@ -4,7 +4,7 @@ The Variable-Solutions plugin adds global variables to the WordPress content man
 
 ## Description ##
 
-The Variable-Solutions plugin extends WordPress enabling the creation and management of variables that can be referenced as short codes in WordPress content and/or as defined variables in the supporting PHP files. It is a thin plugin and loads only one file when running in end user mode. The Variable-Solutions plugin is developed and maintained by <a href="https://www.usi2solve.com">Universal Solutions</a>.
+The Variable-Solutions plugin extends WordPress enabling the creation and management of variables that can be referenced as short codes in WordPress content and/or as defined variables in the supporting PHP files. It is a thin plugin that loads only one file when running in end user mode. The Variable-Solutions plugin is developed and maintained by <a href="https://www.usi2solve.com">Universal Solutions</a>.
 
 **What are Variables** - Say you have some information that changes frequently and appears on multiple pages.
 It could be the date of your next big event or even the product of the month. 
@@ -15,7 +15,7 @@ These unique variable names, along with the information the name represents, are
 **What are Shortcodes** - Shortcodes are special tags used as shortcuts to easily insert bits of functionality into your content. 
 You can recognize shortcodes by square brackets that surround a simple word or a phrase.
 
-**Show Me an Example** - If your site features different product of the month, you can create a variable ` 'product_month' ` and set it to ` "Our Nifty Widget" `, 
+**Show Me an Example** - If your site features a different product of the month, you can create a variable ` 'product_month' ` and set it to ` "Our Nifty Widget" `, 
 then you can include this variable anywhere in your content with the following shortcode:
 
 ```
@@ -61,14 +61,14 @@ Click on the WordPress *Variables* menu located on the left side bar to see the 
 Click the ` Add New ` button to add a new variable or hover over a variable name and click the ` Edit ` link to edit an existing variable.
 
 The edit variable page shows the variable category and variable name for the selected variable along with some other parameters. 
-The Variable-Solutions plugin comes with the built-in ` general ` category which is used by the shortcode if no category is given. 
-There is no harm in specifying the ` General ` category, in which case the shortcode would be written as follows:
+The Variable-Solutions plugin comes with the built-in ` general ` category which is used as the default category if no category is given. 
+There is no harm in specifying the ` general ` category, in which case the shortcode is written as follows:
 
 ```
 [variable category="general" item="product_month"]
 ```
 
-**Note** - If you edit an existing variable and change it's category or variable name, then the old category and variable name pair will be repalced with the new combination.
+**Note** - If you edit an existing variable and change it's category or variable name, then the old category and variable name pair are repalced with the new combination.
 This can cause referencing errors if you don't make the corresponding changes in your content.
 
 Additionally, there is the built-in ` date ` category for inserting dates into your content. 
@@ -77,13 +77,13 @@ Enter the date using the 24-hour clock, year first then time format as follows:
 ```
 1970-01-01 00:00:00
 ```
-You can then specify how the date will be displayed when WordPress processes the shortcode. For example:
+You can then specify how the date is displayed when WordPress processes the shortcode. For example:
 
 ```
 [variable category="date" item="unix_epoch" format="F js, Y"]
 ```
 
-will display ` January 1st, 1970 `, which is the format specified by the ` F js, Y ` string. 
+displays ` January 1st, 1970 `, which is the format specified by the ` F js, Y ` string. 
 You can find the format string parameter reference here: <a href="http://php.net/manual/en/function.date.php">php.net/manual/en/function.date.php</a>.
 
 ## Screen Images ##
