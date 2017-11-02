@@ -6,7 +6,7 @@ require_once('usi-settings.php');
 
 if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
 
-   const VERSION = '1.0.1 (2017-11-01)';
+   const VERSION = '1.0.2 (2017-11-01)';
 
    protected $is_tabbed = false;
    protected $sections = null;
@@ -209,7 +209,7 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
                $active_class = null;
                if ($section_id == $this->active_tab) {
                   $active_class = ' nav-tab-active';
-                  $submit_text = !empty($section['submit']) ? $section['submit'] : 'Save ' . $section['label'];
+                  $submit_text = isset($section['submit']) ? $section['submit'] : 'Save ' . $section['label'];
                }
                echo '      <a href="options-general.php?page=' . $this->page_slug . '&tab=' . $section_id .
                   '" class="nav-tab' . $active_class . '">' .
