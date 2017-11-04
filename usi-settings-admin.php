@@ -194,13 +194,15 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
       return($links);
    } // filter_plugin_action_links();
 
-   function page_render() {
+   // To load extra buttons on the page title, override this function and then call this function
+   // with a call to parent::page_render('extra-button-html');
+   function page_render($extra_buttons = '') {
 
       $submit_text = null;
 
       echo PHP_EOL .
          '<div class="wrap">' . PHP_EOL .
-         '  <h1>' . __($this->name . ' Settings', $this->text_domain) . '</h1>' . PHP_EOL .
+         '  <h1>' . __($this->name . ' Settings', $this->text_domain) . $extra_buttons . '</h1>' . PHP_EOL .
          '  <form method="post" action="options.php">' . PHP_EOL;
 
       if ($this->is_tabbed) {
