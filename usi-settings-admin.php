@@ -6,7 +6,7 @@ require_once('usi-settings.php');
 
 if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
 
-   const VERSION = '1.0.2 (2017-11-01)';
+   const VERSION = '1.0.3 (2017-11-04)';
 
    protected $is_tabbed = false;
    protected $sections = null;
@@ -59,7 +59,7 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
           '</style>' . PHP_EOL;
    } // action_admin_head();
 
-   function action_admin_init() {  
+   function action_admin_init() {
 
       $prefix = $this->prefix;
 
@@ -90,7 +90,7 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
                   $this->page_slug, // Settings page menu slug;
                   $section_id, // Section id;
                   array_merge($attributes, 
-                     array(
+                    array(
                         'name' => $this->option_name . '[' . $section_id . ']['  . $option_id . ']',
                         'value' => !empty(USI_Settings::$options[$prefix][$section_id][$option_id]) 
                            ? USI_Settings::$options[$prefix][$section_id][$option_id] : null,
@@ -152,7 +152,8 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
          break;
 
       case 'checkbox':
-         echo '<input type="checkbox"' . $attributes . ' value="true"' . checked($value, true, false) . ' />';
+         // Not sure why we have to conver 'true' to true, but checked() sometimes wouldn't check otherwise;
+         echo '<input type="checkbox"' . $attributes . ' value="true"' . checked('true' == $value ? true : $value, true, false) . ' />';
          break;
 
       case 'hidden':
