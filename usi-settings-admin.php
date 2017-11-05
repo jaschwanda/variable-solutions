@@ -8,10 +8,10 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
 
    const VERSION = '1.0.3 (2017-11-04)';
 
+   protected $active_tab = null;
    protected $is_tabbed = false;
    protected $sections = null;
 
-   private $active_tab = null;
    private $name = null;
    private $option_name = null;
    private $page_slug = null;
