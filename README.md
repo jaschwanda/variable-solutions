@@ -44,7 +44,7 @@ define('prefix_PRODUCT_OF_THE_MONTH', 'Our New Gadget');
 ```
 Any custom theme or plugin code in your WordPress installation can reference the `prefix_PRODUCT_OF_THE_MONTH ` variable and get the value `'Our New Gadget'`.
 
-**Note** - The ` prefix_ ` string defaults to the WordPress database prefix but it you can change the string in the preferences settings page.
+**Note** - The ` prefix_ ` string defaults to the WordPress database prefix but you can change it in the preferences settings page.
 
 You can control the location of the *variables.php* file and other configuration options via the *Variable-Solutions* page under the WordPress *Settings* 
 menu located on the left side bar.
