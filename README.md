@@ -15,15 +15,15 @@ These unique variable names, along with the information the name represents, are
 **What are Shortcodes** - Shortcodes are special tags used as shortcuts to easily insert bits of functionality into your content. 
 You can recognize shortcodes by square brackets that surround a simple word or a phrase.
 
-**Show Me an Example** - If your site features a different product of the month, you can create a variable ` 'product_month' ` and set it to ` "Our Nifty Widget" `, 
+**Show Me an Example** - If your site features a different product of the month, you can create a variable ` 'product_of_the_month' ` and set it to ` "Our New Gadget" `, 
 then you can include this variable anywhere in your content with the following shortcode:
 
 ```
-[variable item="product_month"]
+[variable item="product_of_the_month"]
 ```
 
-and your visitors will see ` "Our Nifty Widget" ` wherever the above shortcode is used. 
-Next month when your product changes, you can edit the ` 'product_month' ` variable and set it to ` "Our More Niftier Widget" ` 
+and your visitors will see ` "Our New Gadget" ` wherever the above shortcode is used. 
+Next month when your product changes, you can edit the ` 'product_of_the_month' ` variable and set it to ` "Our Newest Gadget" ` 
 and your visitors will see the updated content.
 
 ## Installation ##
@@ -40,9 +40,9 @@ This file contains PHP define statements that can be referenced by code in your 
 Using the example from above, the *variables.php* file would contain the following line:
 
 ```php
-define('prefix_PRODUCT_MONTH', 'Our Nifty Widget');
+define('prefix_PRODUCT_OF_THE_MONTH', 'Our New Gadget');
 ```
-Any custom theme or plugin code in your WordPress installation can reference the `prefix_PRODUCT_MONTH ` variable and get the value `'Our Nifty Widget'`.
+Any custom theme or plugin code in your WordPress installation can reference the `prefix_PRODUCT_OF_THE_MONTH ` variable and get the value `'Our New Gadget'`.
 
 You can control the location of the *variables.php* file and other configuration options via the *Variable-Solutions* page under the WordPress *Settings* 
 menu located on the left side bar.
@@ -65,7 +65,7 @@ The Variable-Solutions plugin comes with the built-in ` general ` category which
 There is no harm in specifying the ` general ` category, in which case the shortcode is written as follows:
 
 ```
-[variable category="general" item="product_month"]
+[variable category="general" item="product_of_the_month"]
 ```
 
 **Note** - If you edit an existing variable and change it's category or variable name, then the old category and variable name pair are repalced with the new combination.
