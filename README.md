@@ -43,9 +43,10 @@ Using the example from above, the *variables.php* file would contain the followi
 define('prefix_PRODUCT_OF_THE_MONTH', 'Our New Gadget');
 ```
 Any custom theme or plugin code in your WordPress installation can reference the `prefix_PRODUCT_OF_THE_MONTH ` variable and get the value `'Our New Gadget'`.
+The ` prefix_ ` string defaults to the WordPress database prefix.
 
-You can control the location of the *variables.php* file and other configuration options, such as the ` prefix_ ` string above, 
-in the *Variable-Solutions* page under the WordPress *Settings* menu located on the left side bar.
+You can control the location of the *variables.php* file and other configuration options via the *Variable-Solutions* page under the WordPress *Settings* 
+menu located on the left side bar.
 
 ## Settings ##
 The Variable-Solutions settings page contains three tabs: Preferences, Publish and Capabilities.
