@@ -15,7 +15,7 @@ These unique variable names, along with the information the name represents, are
 **What are Shortcodes** - Shortcodes are special tags used as shortcuts to easily insert bits of functionality into your content. 
 You can recognize shortcodes by square brackets that surround a simple word or a phrase.
 
-**Show Me an Example** - If your site features a product of the month, you can create a variable ` 'product_of_the_month' ` and set it to ` "Our New Gadget" `, 
+**Show Me an Example** - If your site features a product of the month, you can create the variable ` 'product_of_the_month' ` and set it to ` "Our New Gadget" `, 
 then you can include this variable anywhere in your content with the following shortcode:
 
 ```
@@ -24,7 +24,7 @@ then you can include this variable anywhere in your content with the following s
 
 and your visitors will see ` "Our New Gadget" ` wherever the above shortcode is used. 
 Next month when your product changes, you can make one edit and set the ` 'product_of_the_month' ` variable to ` "Our Newest Gadget" ` 
-and your visitors will see the updated content everywhere the above shortcode is used.
+and your visitors will see the updated content everywhere the shortcode is used.
 
 ## Installation ##
 The Variable-Solutions plugin follows the standard WordPress <a href="https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation">manual plugin installation</a> procedure:
