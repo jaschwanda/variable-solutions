@@ -72,6 +72,13 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
             ),
          ), // preferences;
 
+         'capabilities' => USI_Settings_Capabilities::section(
+            USI_Variable_Solutions::NAME, 
+            USI_Variable_Solutions::PREFIX, 
+            USI_Variable_Solutions::TEXTDOMAIN,
+            USI_Variable_Solutions::$capabilities
+         ), // capabilities;
+
          'publish' => array(
          // 'footer_callback' => array($this, 'config_section_footer'), // Only to test no tabbing;
             'header_callback' => array($this, 'config_section_header_publish'),
@@ -95,13 +102,6 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
          }
       }
       unset($setting);
-
-      $this->sections['capabilities'] = USI_Settings_Capabilities::section(
-         USI_Variable_Solutions::NAME, 
-         USI_Variable_Solutions::PREFIX, 
-         USI_Variable_Solutions::TEXTDOMAIN,
-         USI_Variable_Solutions::$capabilities
-      );
 
       parent::__construct(
          USI_Variable_Solutions::NAME, 
