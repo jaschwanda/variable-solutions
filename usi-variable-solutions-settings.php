@@ -7,7 +7,7 @@ require_once('usi-settings-capabilities.php');
 
 class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
 
-   const VERSION = '1.0.0 (2017-10-29)';
+   const VERSION = '1.0.4 (2017-12-07)';
 
    protected $is_tabbed = true;
 
@@ -151,7 +151,7 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
          $input['preferences']['variable-prefix'] = sanitize_title(strtolower($input['preferences']['variable-prefix']));
       }
       $input = parent::fields_sanitize($input);
-      if ('publish' == $_REQUEST['usi-vs-tab']) {
+      if ('publish' == $_REQUEST['usi-variable-tab']) {
          usi_history('usi-variable-solutions:publish:explaination=' . $input['publish']['explaination']);
          $input['publish']['explaination'] = '';
          $prefix = USI_Settings::$options[USI_Variable_Solutions::PREFIX]['preferences']['variable-prefix'];
