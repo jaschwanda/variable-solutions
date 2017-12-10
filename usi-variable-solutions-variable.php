@@ -4,7 +4,7 @@ defined('ABSPATH') or die('Accesss not allowed.');
 
 final class USI_Variable_Solutions_Variable {
 
-   const VERSION = '1.0.0 (2017-10-29)';
+   const VERSION = '1.0.5 (2017-12-10)';
 
    private $disable_save = false;
    private $error = false;
@@ -78,7 +78,7 @@ final class USI_Variable_Solutions_Variable {
 
             add_settings_error(
                $this->section_id, // Section id slug;
-               'warning', // Message slug name identifier;
+               'error', // Message slug name identifier;
                __('Cannot find variable with given Id', USI_Variable_Solutions::TEXTDOMAIN) . '.' // Message text shown to user;
             );
 
@@ -402,7 +402,7 @@ final class USI_Variable_Solutions_Variable {
 
       add_settings_error(
          $this->section_id, // Section id slug;
-         $action, // Message slug name identifier;
+         $type, // Message slug name identifier;
          __($text, USI_Variable_Solutions::TEXTDOMAIN) . '.', // Message text shown to user;
          $type // Message type, [updated|error];
       );
@@ -412,7 +412,7 @@ final class USI_Variable_Solutions_Variable {
          submit_button(__('Publish', USI_Variable_Solutions::TEXTDOMAIN), 'secondary', 'usi-vs-publish', false);
          add_settings_error(
             $this->section_id, // Section id slug;
-            $action, // Message slug name identifier;
+            'warning', // Message slug name identifier;
             sprintf(__('Remember to %s your changes', USI_Variable_Solutions::TEXTDOMAIN), ob_get_clean()) . '.', // Message text shown to user;
             'notice-warning' // Message type;
          );

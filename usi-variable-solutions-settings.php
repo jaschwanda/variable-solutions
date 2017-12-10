@@ -151,7 +151,7 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
          $input['preferences']['variable-prefix'] = sanitize_title(strtolower($input['preferences']['variable-prefix']));
       }
       $input = parent::fields_sanitize($input);
-      if ('publish' == $_REQUEST['usi-variable-tab']) {
+      if ('publish' == (!empty($_REQUEST['usi-variable-tab']) ? $_REQUEST['usi-variable-tab'] : null)) {
          usi_history('usi-variable-solutions:publish:explaination=' . $input['publish']['explaination']);
          $input['publish']['explaination'] = '';
          $prefix = USI_Settings::$options[USI_Variable_Solutions::PREFIX]['preferences']['variable-prefix'];
