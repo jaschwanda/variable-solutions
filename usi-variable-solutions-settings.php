@@ -4,6 +4,7 @@ defined('ABSPATH') or die('Accesss not allowed.');
 
 require_once('usi-settings-admin.php');
 require_once('usi-settings-capabilities.php');
+require_once('usi-settings-versions.php');
 
 class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
 
@@ -108,6 +109,8 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
          USI_Variable_Solutions::PREFIX, 
          USI_Variable_Solutions::TEXTDOMAIN
       );
+
+      USI_Settings_Versions::action();
 
       add_filter('plugin_row_meta', array($this, 'filter_plugin_row_meta'), 10, 2);
 
@@ -232,6 +235,8 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
 
    function filter_plugin_row_meta($links, $file) {
       if (false !== strpos($file, USI_Variable_Solutions::TEXTDOMAIN)) {
+         $links[0] = USI_Settings_Versions::link($links[0], 'Variable-Solutions', 
+            USI_Variable_Solutions::VERSION, USI_Variable_Solutions::TEXTDOMAIN, __FILE__);
          $links[] = '<a href="https://www.usi2solve.com/donate/variable-solutions" target="_blank">' . 
             __('Donate', USI_Variable_Solutions::TEXTDOMAIN) . '</a>';
       }
