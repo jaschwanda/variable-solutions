@@ -6,20 +6,19 @@ require_once('usi-settings.php');
 
 if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
 
-   const VERSION = '1.0.3 (2017-11-04)';
+   const VERSION = '1.0.5 (2018-01-07)';
 
    protected $active_tab = null;
    protected $is_tabbed = false;
+   protected $name = null;
+   protected $option_name = null;
+   protected $page_slug = null;
+   protected $prefix = null;
+   protected $section_callback_offset = 0;
+   protected $section_callbacks = array();
+   protected $section_ids = array();
    protected $sections = null;
-
-   private $name = null;
-   private $option_name = null;
-   private $page_slug = null;
-   private $prefix = null;
-   private $section_callback_offset = 0;
-   private $section_callbacks = array();
-   private $section_ids = array();
-   private $text_domain = null;
+   protected $text_domain = null;
 
    function __construct($name, $prefix, $text_domain) {
 
@@ -93,7 +92,7 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
                     array(
                         'name' => $this->option_name . '[' . $section_id . ']['  . $option_id . ']',
                         'value' => !empty(USI_Settings::$options[$prefix][$section_id][$option_id]) 
-                           ? USI_Settings::$options[$prefix][$section_id][$option_id] : null,
+                           ? USI_Settings::$options[$prefix][$section_id][$option_id] : ('number' == $attributes['type'] ? 0 : null)
                      )
                   )
                );
@@ -122,6 +121,8 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
 
    static function fields_render($args) {
 
+      // USI_Debug::print_r(__METHOD__.':args=', $args);
+
       $notes    = !empty($args['notes']) ? $args['notes'] : null;
       $type     = !empty($args['type'])  ? $args['type']  : 'text';
 
@@ -132,12 +133,14 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
       $min      = isset($args['min'])    ? ' min="'   . $args['min']   . '"' : null;
       $max      = isset($args['max'])    ? ' max="'   . $args['max']   . '"' : null;
 
+      $rows     = isset($args['rows'])   ? ' rows="'  . $args['rows']  . '"' : null;
+
       $readonly = !empty($args['readonly']) ? ('checkbox' == $type ? ' disabled' : ' readonly') : null;
       $value    = !empty($args['value']) ? esc_attr($args['value']) : ('number' == $type ? 0 : null);
 
       $maxlen   = !empty($args['maxlength']) ? (is_integer($args['maxlength']) ? ' maxlength="' . $args['maxlength'] . '"' : null) : null;
 
-      $attributes = $id . $class . $name . $min . $max . $maxlen . $readonly;
+      $attributes = $id . $class . $name . $min . $max . $maxlen . $readonly . $rows;
 
       switch ($type) {
 
@@ -194,15 +197,20 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
       return($links);
    } // filter_plugin_action_links();
 
-   // To load extra buttons on the page title, override this function and then call this function
-   // with a call to parent::page_render('extra-button-html');
-   function page_render($extra_buttons = '') {
+   // To include more options on this page, override this function and call parent::page_render($options);
+   function page_render($options = null) {
+
+      $page_header   = !empty($options['page_header'])   ? $options['page_header']   : null;
+      $title_buttons = !empty($options['title_buttons']) ? $options['title_buttons'] : null;
+      $tab_parameter = !empty($options['tab_parameter']) ? $options['tab_parameter'] : null;
+      $trailing_code = !empty($options['trailing_code']) ? $options['trailing_code'] : null;
+      $wrap_submit   = !empty($options['wrap_submit']);
 
       $submit_text = null;
 
       echo PHP_EOL .
          '<div class="wrap">' . PHP_EOL .
-         '  <h1>' . __($this->name . ' Settings', $this->text_domain) . $extra_buttons . '</h1>' . PHP_EOL .
+         '  <h1>' . ($page_header ? $page_header : __($this->name . ' Settings', $this->text_domain)) . $title_buttons . '</h1>' . PHP_EOL .
          '  <form method="post" action="options.php">' . PHP_EOL;
 
       if ($this->is_tabbed) {
@@ -214,7 +222,7 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
                   $active_class = ' nav-tab-active';
                   $submit_text = isset($section['submit']) ? $section['submit'] : 'Save ' . $section['label'];
                }
-               echo '      <a href="options-general.php?page=' . $this->page_slug . '&tab=' . $section_id .
+               echo '      <a href="options-general.php?page=' . $this->page_slug . '&tab=' . $section_id . $tab_parameter .
                   '" class="nav-tab' . $active_class . '">' .
                   __($section['label'], $this->text_domain) . '</a>' . PHP_EOL;
             }
@@ -255,11 +263,18 @@ if (!class_exists('USI_Settings_Admin')) { class USI_Settings_Admin {
 
       }
 
-      if ($submit_text) submit_button($submit_text, 'primary', 'submit', true); 
+      if ($wrap_submit) echo '<p class="submit">';
+
+      if ($submit_text) submit_button($submit_text, 'primary', 'submit', !$wrap_submit); 
+
+      if (!empty($options['submit_button'])) echo $options['submit_button'];
+
+      if ($wrap_submit) echo '</p>';
 
       echo PHP_EOL .
          '  </form>' . PHP_EOL .
-         '</div>' . PHP_EOL;
+         '</div>' . PHP_EOL . 
+         $trailing_code;
 
    } // page_render();
 
