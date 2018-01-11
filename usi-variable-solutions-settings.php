@@ -2,13 +2,13 @@
 
 defined('ABSPATH') or die('Accesss not allowed.');
 
-require_once('usi-settings-admin.php');
-require_once('usi-settings-capabilities.php');
-require_once('usi-settings-versions.php');
+require_once('usi-settings/usi-settings-admin.php');
+require_once('usi-settings/usi-settings-capabilities.php');
+require_once('usi-settings/usi-settings-versions.php');
 
 class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
 
-   const VERSION = '1.0.6 (2017-12-14)';
+   const VERSION = '1.0.8 (2018-01-107)';
 
    protected $is_tabbed = true;
 

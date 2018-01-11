@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 1.0.8 (2018-01-107) ##
+* Moved usi-settings files into their own folder and made them a Git submodule.
+
 ## 1.0.5 (2018-01-07) ##
 * Updated USI_Settings_Admin to change scope of class properties and added options to page_render().
 
