@@ -6,7 +6,7 @@ defined('ABSPATH') or die('Accesss not allowed.');
 Plugin Name: Variable-Solutions
 Plugin URI:  https://github.com/jaschwanda/variable-solutions
 Description: The Variable-Solutions plugin extends WordPress enabling the creation and management of variables that can be referenced as short codes in WordPress content and/or as defined variables in the supporting PHP files. It is a thin plugin that loads only one file when running in end user mode. The Variable-Solutions plugin is developed and maintained by Universal Solutions.
-Version:     1.0.8 (2018-01-107)
+Version:     1.0.8 (2018-01-10)
 Author:      Jim Schwanda
 Author URI:  https://www.usi2solve.com/leader
 Text Domain: usi-variable-solutions
@@ -30,7 +30,7 @@ require_once('usi-settings/usi-settings.php');
 
 class USI_Variable_Solutions {
 
-   const VERSION = '1.0.8 (2018-01-107)';
+   const VERSION = '1.0.8 (2018-01-10)';
    const NAME = 'Variable-Solutions';
    const PREFIX = 'usi-variable';
    const TEXTDOMAIN = 'usi-variable-solutions';
