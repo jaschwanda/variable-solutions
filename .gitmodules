@@ -1,0 +1,3 @@
+[submodule "usi-settings"]
+	path = usi-settings
+	url = https://github.com/jaschwanda/usi-settings
