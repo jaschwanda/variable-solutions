@@ -75,6 +75,18 @@ class USI_Variable_Solutions {
       return('plugin');
    } // get_variables_folder();
 
+   static function action_admin_notices() {
+      global $pagenow;
+      if ('plugins.php' == $pagenow) {
+        $text = sprintf(
+           __('The %s plugin is required for the %s plugin to run properly.', self::TEXTDOMAIN), 
+           '<b>Settings-Solutions</b>',
+           '<b>Variable-Solutions</b>'
+        );
+        echo '<div class="notice notice-warning is-dismissible"><p>' . $text . '</p></div>';
+      }
+   } // action_admin_notices();
+
 } // Class USI_Variable_Solutions;
    
 new USI_Variable_Solutions();
@@ -84,6 +96,8 @@ if (is_admin() && !defined('WP_UNINSTALL_PLUGIN')) {
    require_once('usi-variable-solutions-install.php');
    if (is_dir(plugin_dir_path(__DIR__) . 'usi-settings-solutions')) {
       require_once('usi-variable-solutions-settings.php'); 
+   } else {
+      add_action('admin_notices', array('USI_Variable_Solutions', 'action_admin_notices'));
    }
    require_once('usi-variable-solutions-table.php');
    require_once('usi-variable-solutions-variable.php');
