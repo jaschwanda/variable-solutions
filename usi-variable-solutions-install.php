@@ -4,7 +4,7 @@ defined('ABSPATH') or die('Accesss not allowed.');
 
 final class USI_Variable_Solutions_Install {
 
-   const VERSION = '1.0.0 (2017-10-29)';
+   const VERSION = '1.1.0 (2019-05-14)';
    const VERSION_DATA = '1.0';
 
    private function __construct() {

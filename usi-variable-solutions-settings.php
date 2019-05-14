@@ -8,7 +8,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-settings-solutions/usi-settings-sol
 
 class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
 
-   const VERSION = '1.0.8 (2018-01-10)';
+   const VERSION = '1.1.0 (2019-05-14)';
 
    protected $is_tabbed = true;
 

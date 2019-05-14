@@ -6,7 +6,7 @@ if (!class_exists('WP_List_Table')) { require_once(ABSPATH . 'wp-admin/includes/
 
 final class USI_Variable_Solutions_Table extends WP_List_Table {
 
-   const VERSION = '1.0.0 (2017-10-29)';
+   const VERSION = '1.1.0 (2019-05-14)';
 
    private $all_categories = null;
    private $category = null;

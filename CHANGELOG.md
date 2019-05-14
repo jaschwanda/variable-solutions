@@ -2,6 +2,10 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 1.1.0 (2019-05-14) ##
+* Removed usi-settings files from sub-folder under parent plugin and made a stand alone class, changed the name to 'Settinds-Solutions.
+* Updated all plugin version numbers to match.
+
 ## 1.0.8 (2018-01-10) ##
 * Moved usi-settings files into their own folder and made them a Git submodule.
 
