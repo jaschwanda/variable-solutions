@@ -28,9 +28,8 @@ and your visitors will see the updated content everywhere the shortcode is used.
 
 ## Installation ##
 The Variable-Solutions plugin follows the standard WordPress <a href="https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation">manual plugin installation</a> procedure:
+1. Install the Settings-Solutions plugin.
 1. Clone or Download the Variable-Solutions archive to your computer.
-   1. If you clone it, make sure you pull the ` usi-settings ` submodule.
-   1. If you download it, also download the ` usi-settings ` submodule and install the submodule source files in the ` usi-settings ` folder.
 1. Extract the archive contents to your local file system.
 1. Rename the extracted folder to ` usi-variable-solutions ` if not already done so during the extraction.
 1. Upload the ` .php ` files from your ` usi-variable-solutions ` folder to the ` wp-content/plugins ` folder in your target WordPress installation.
