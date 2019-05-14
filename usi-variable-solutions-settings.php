@@ -2,11 +2,11 @@
 
 defined('ABSPATH') or die('Accesss not allowed.');
 
-require_once('usi-settings/usi-settings-admin.php');
-require_once('usi-settings/usi-settings-capabilities.php');
-require_once('usi-settings/usi-settings-versions.php');
+require_once(plugin_dir_path(__DIR__) . 'usi-settings-solutions/usi-settings-solutions-capabilities.php');
+require_once(plugin_dir_path(__DIR__) . 'usi-settings-solutions/usi-settings-solutions-settings.php');
+require_once(plugin_dir_path(__DIR__) . 'usi-settings-solutions/usi-settings-solutions-versions.php');
 
-class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
+class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
 
    const VERSION = '1.0.8 (2018-01-10)';
 
@@ -73,7 +73,7 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
             ),
          ), // preferences;
 
-         'capabilities' => USI_Settings_Capabilities::section(
+         'capabilities' => USI_Settings_Solutions_Capabilities::section(
             USI_Variable_Solutions::NAME, 
             USI_Variable_Solutions::PREFIX, 
             USI_Variable_Solutions::TEXTDOMAIN,
@@ -107,10 +107,10 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
       parent::__construct(
          USI_Variable_Solutions::NAME, 
          USI_Variable_Solutions::PREFIX, 
-         USI_Variable_Solutions::TEXTDOMAIN
+         USI_Variable_Solutions::TEXTDOMAIN,
+         true,
+         USI_Variable_Solutions::$options
       );
-
-      USI_Settings_Versions::action();
 
       add_filter('plugin_row_meta', array($this, 'filter_plugin_row_meta'), 10, 2);
 
@@ -157,7 +157,7 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
       if ('publish' == (!empty($_REQUEST['usi-variable-tab']) ? $_REQUEST['usi-variable-tab'] : null)) {
          usi_history('usi-variable-solutions:publish:explaination=' . $input['publish']['explaination']);
          $input['publish']['explaination'] = '';
-         $prefix = USI_Settings::$options[USI_Variable_Solutions::PREFIX]['preferences']['variable-prefix'];
+         $prefix = USI_Settings_Solutions::$options[USI_Variable_Solutions::PREFIX]['preferences']['variable-prefix'];
          global $wpdb;
          switch ($location = USI_Variable_Solutions::get_variables_folder()) {
          default: case 'plugin': 
@@ -187,7 +187,7 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
             fwrite($fh, "define('$variable', $value);" . PHP_EOL);
          }
 
-         $shortcode_function = USI_Settings::$options[USI_Variable_Solutions::PREFIX]['preferences']['shortcode-function'];
+         $shortcode_function = USI_Settings_Solutions::$options[USI_Variable_Solutions::PREFIX]['preferences']['shortcode-function'];
 
          fwrite($fh, 'function ' . $shortcode_function . '($attributes, $content = null) {' . PHP_EOL);
          fwrite($fh, '   $category = !empty($attributes[\'category\']) ? $attributes[\'category\'] : null;' . PHP_EOL);
@@ -235,8 +235,13 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Admin {
 
    function filter_plugin_row_meta($links, $file) {
       if (false !== strpos($file, USI_Variable_Solutions::TEXTDOMAIN)) {
-         $links[0] = USI_Settings_Versions::link($links[0], 'Variable-Solutions', 
-            USI_Variable_Solutions::VERSION, USI_Variable_Solutions::TEXTDOMAIN, __FILE__);
+         $links[0] = USI_Settings_Solutions_Versions::link(
+            $links[0], 
+            USI_Variable_Solutions::NAME, 
+            USI_Variable_Solutions::VERSION, 
+            USI_Variable_Solutions::TEXTDOMAIN, 
+            __DIR__ // Folder containing plugin or theme;
+         );
          $links[] = '<a href="https://www.usi2solve.com/donate/variable-solutions" target="_blank">' . 
             __('Donate', USI_Variable_Solutions::TEXTDOMAIN) . '</a>';
       }

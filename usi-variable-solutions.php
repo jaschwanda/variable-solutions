@@ -26,8 +26,6 @@ You should have received a copy of the GNU General Public License along with Var
 <http://www.gnu.org/licenses/>.
 */
 
-require_once('usi-settings/usi-settings.php'); 
-
 class USI_Variable_Solutions {
 
    const VERSION = '1.0.8 (2018-01-10)';
@@ -46,8 +44,10 @@ class USI_Variable_Solutions {
       'Edit-Preferences' => 'Edit preferences',
    );
 
+   public static $options = array();
+
    function __construct() {
-      if (empty(USI_Settings::$options[self::PREFIX])) {
+      if (empty(USI_Variable_Solutions::$options)) {
          global $wpdb;
          $defaults['preferences']['file-location'] = 'plugin';
          $defaults['preferences']['menu-icon'] = 'dashicons-controls-repeat';
@@ -55,10 +55,10 @@ class USI_Variable_Solutions {
          $defaults['preferences']['shortcode-function'] = 'usi_variable_shortcode';
          $defaults['preferences']['shortcode-prefix'] = 'variable';
          $defaults['preferences']['variable-prefix'] = $wpdb->prefix;
-         USI_Settings::$options[self::PREFIX] = get_option(self::PREFIX . '-options', $defaults);
+         USI_Variable_Solutions::$options = get_option(self::PREFIX . '-options', $defaults);
       }
-      $shortcode_prefix   = USI_Settings::$options[self::PREFIX]['preferences']['shortcode-prefix'];
-      $shortcode_function = USI_Settings::$options[self::PREFIX]['preferences']['shortcode-function'];
+      $shortcode_prefix   = USI_Variable_Solutions::$options['preferences']['shortcode-prefix'];
+      $shortcode_function = USI_Variable_Solutions::$options['preferences']['shortcode-function'];
       add_shortcode($shortcode_prefix, $shortcode_function);
       switch ($location = self::get_variables_folder()) {
       default: 
@@ -69,8 +69,8 @@ class USI_Variable_Solutions {
    } // __construct();
 
    static function get_variables_folder() {
-      if (!empty(USI_Settings::$options[self::PREFIX]['preferences']['file-location'])) {
-         return(USI_Settings::$options[self::PREFIX]['preferences']['file-location']);
+      if (!empty(USI_Variable_Solutions::$options['preferences']['file-location'])) {
+         return(USI_Variable_Solutions::$options['preferences']['file-location']);
       }
       return('plugin');
    } // get_variables_folder();
@@ -82,7 +82,9 @@ new USI_Variable_Solutions();
 if (is_admin() && !defined('WP_UNINSTALL_PLUGIN')) {
    require_once('usi-variable-solutions-admin.php');
    require_once('usi-variable-solutions-install.php');
-   require_once('usi-variable-solutions-settings.php'); 
+   if (is_dir(plugin_dir_path(__DIR__) . 'usi-settings-solutions')) {
+      require_once('usi-variable-solutions-settings.php'); 
+   }
    require_once('usi-variable-solutions-table.php');
    require_once('usi-variable-solutions-variable.php');
 }

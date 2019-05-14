@@ -1,6 +1,5 @@
 <?php // ------------------------------------------------------------------------------------------------------------------------ //
 
-require_once('usi-settings-uninstall.php');
 require_once('usi-variable-solutions.php');
 
 final class USI_Variable_Solutions_Uninstall {
@@ -16,11 +15,11 @@ final class USI_Variable_Solutions_Uninstall {
 
       if (!defined('WP_UNINSTALL_PLUGIN')) exit;
 
-      USI_Settings_Uninstall::uninstall(
-         USI_Variable_Solutions::NAME, 
-         USI_Variable_Solutions::PREFIX, 
-         USI_Variable_Solutions::$capabilities
-      );
+//      USI_Settings_Uninstall::uninstall(
+//         USI_Variable_Solutions::NAME, 
+//         USI_Variable_Solutions::PREFIX, 
+//         USI_Variable_Solutions::$capabilities
+//      );
 
       $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}USI_variables");
 

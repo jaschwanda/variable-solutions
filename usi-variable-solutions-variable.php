@@ -103,7 +103,7 @@ final class USI_Variable_Solutions_Variable {
             'notes' => 'Copy the above shortcode and paste into your posts/pages.' .
                ('date' == $this->options['category'] ? 
                ' For date-format-string see <a href="http://php.net/manual/en/function.date.php" target="_blank">php.net/manual/en/function.date.php</a>.' : '') ,
-            'value' => '[' . USI_Settings::$options[USI_Variable_Solutions::PREFIX]['preferences']['shortcode-prefix'] .
+            'value' => '[' . USI_Settings_Solutions::$options[USI_Variable_Solutions::PREFIX]['preferences']['shortcode-prefix'] .
                ('general' == $this->options['category'] ? '' : ' category="' . $this->options['category'] . '"') . 
                ' item="' .strtolower( $this->options['variable']) . '"' .
                ('date' == $this->options['category'] ? ' format="date-format-string"' : '') . 
@@ -201,7 +201,7 @@ final class USI_Variable_Solutions_Variable {
             add_settings_field(
                $field['name'], // Option name;
                __($field['title'], USI_Variable_Solutions::TEXTDOMAIN), // Field title;
-               array('USI_Settings_Admin', 'fields_render'), // Render field callback;
+               array('USI_Settings_Solutions_Admin', 'fields_render'), // Render field callback;
                $this->page_slug, // Settings page menu slug;
                $this->section_id, // Section id;
                $field

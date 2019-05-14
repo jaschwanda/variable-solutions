@@ -71,8 +71,8 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
          USI_Variable_Solutions::NAME . '-View-Variables', // Capability required to enable page; 
          $this->page_slug, // Unique slug to of this menu; 
          array($this, 'render_page'), // Function called to render page content;
-         USI_Settings::$options[USI_Variable_Solutions::PREFIX]['preferences']['menu-icon'], // Menu icon;
-         USI_Settings::$options[USI_Variable_Solutions::PREFIX]['preferences']['menu-position'] // Menu position;
+         USI_Variable_Solutions::$options['preferences']['menu-icon'], // Menu icon;
+         USI_Variable_Solutions::$options['preferences']['menu-position'] // Menu position;
       );
 
       add_action('load-' . $this->page_hook, array($this, 'action_load_screen_options'));
