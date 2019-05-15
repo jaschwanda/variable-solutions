@@ -108,7 +108,6 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
          USI_Variable_Solutions::NAME, 
          USI_Variable_Solutions::PREFIX, 
          USI_Variable_Solutions::TEXTDOMAIN,
-         true,
          USI_Variable_Solutions::$options
       );
 
