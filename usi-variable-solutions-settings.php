@@ -81,7 +81,6 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
          ), // capabilities;
 
          'publish' => array(
-         // 'footer_callback' => array($this, 'config_section_footer'), // Only to test no tabbing;
             'header_callback' => array($this, 'config_section_header_publish'),
             'label' => 'Publish',
             'settings' => array(
@@ -114,13 +113,6 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
       add_filter('plugin_row_meta', array($this, 'filter_plugin_row_meta'), 10, 2);
 
    } // __construct();
-
-   /* This function is here only to test the no tabbing settings option;
-   function config_section_footer() {
-      submit_button(__('Single Save', USI_Variable_Solutions::TEXTDOMAIN), 'primary', 'submit', true); 
-      return(null);
-   } // config_section_footer();
-   */
 
    function config_section_header_preferences() {
       echo '<p>' . __('Changing these settings after the system is in use may cause referencing errors. Make sure that you also change the <b>[ID attribute="value"]</b> shortcodes in your content and the <b>defined(variable, "value")</b> statments in your PHP files to match the settings you enter here.', USI_Variable_Solutions::TEXTDOMAIN) . '</p>' . PHP_EOL;
