@@ -6,14 +6,17 @@ if (!class_exists('WP_List_Table')) { require_once(ABSPATH . 'wp-admin/includes/
 
 final class USI_Variable_Solutions_Table extends WP_List_Table {
 
-   const VERSION = '1.1.0 (2019-05-14)';
+   const VERSION = '1.1.1 (2019-05-25)';
 
    private $all_categories = null;
    private $category = null;
+   private $options_category = null;
    private $page_hook = null;
    private $page_slug = 'usi-vs-variables';
 
    function __construct() {
+
+      $this->options_category = USI_Variable_Solutions::PREFIX . '-options-category';
 
       add_action('admin_head', array($this, 'action_admin_head'));
       add_action('admin_menu', array($this, 'action_admin_menu'));
@@ -165,8 +168,10 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
       if ('top' == $which) {        
          $SAFE_variables_table = $wpdb->prefix . 'USI_variables';
          $rows = $wpdb->get_results("SELECT DISTINCT `category` FROM `$SAFE_variables_table` WHERE (`category` <> '') ORDER BY `category`", OBJECT_K);
-         echo '      <div class="alignleft actions bulkactions"><select id="usi-vs-options-category" name="usi-vs-options-category">';
-         echo '<option ' . (($this->all_categories == $this->category) ? 'selected="selected" ' : '') . 'value="' . $this->all_categories . '">' . $this->all_categories . '</option>';
+         echo '      <div class="alignleft actions bulkactions"><select id="' . $this->options_category . 
+            '" name="' . $this->options_category . '">' .
+            '<option ' . (($this->all_categories == $this->category) ? 'selected="selected" ' : '') . 'value="' . 
+            $this->all_categories . '">' . $this->all_categories . '</option>';
          foreach ($rows as $row) {
             echo '<option ' . (($row->category == $this->category) ? 'selected="selected" ' : '') . 'value="' . $row->category . '">' . $row->category . '</option>';
          }
@@ -241,15 +246,15 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
       $SAFE_orderby = 'ORDER BY `' . $SAFE_orderby . '` ' . $SAFE_order;
       $SAFE_search = ((isset($_POST['s']) && ('' != $_POST['s'])) ? $wpdb->prepare(' AND (`variable` = %s)', $_POST['s']) : '');
       if ('' == $SAFE_search) {
-         if (!empty($_POST['usi-vs-options-category'])) {
-            $this->category = $_POST['usi-vs-options-category'];
+         if (!empty($_POST[$this->options_category])) {
+            $this->category = $_POST[$this->options_category];
          } else if (!empty($_GET['filter'])) {
             $this->category = $_GET['filter'];
          } else {
-            $category = get_user_option('usi-vs-options-category');
+            $category = get_user_option($this->options_category);
             $this->category = (!empty($category) ? $category : $this->all_categories);
          }
-         update_user_option(get_current_user_id(), 'usi-vs-options-category', $this->category);
+         update_user_option(get_current_user_id(), $this->options_category, $this->category);
          if ($this->all_categories != $this->category) $SAFE_search = $wpdb->prepare(' AND (`category` = %s)', $this->category);
       }
 
