@@ -148,7 +148,7 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
       if ('publish' == (!empty($_REQUEST['usi-variable-tab']) ? $_REQUEST['usi-variable-tab'] : null)) {
          usi_history('usi-variable-solutions:publish:explaination=' . $input['publish']['explaination']);
          $input['publish']['explaination'] = '';
-         $prefix = USI_Settings_Solutions::$options[USI_Variable_Solutions::PREFIX]['preferences']['variable-prefix'];
+         $prefix = USI_Variable_Solutions::$options['preferences']['variable-prefix'];
          global $wpdb;
          switch ($location = USI_Variable_Solutions::get_variables_folder()) {
          default: case 'plugin': 
@@ -178,7 +178,7 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
             fwrite($fh, "define('$variable', $value);" . PHP_EOL);
          }
 
-         $shortcode_function = USI_Settings_Solutions::$options[USI_Variable_Solutions::PREFIX]['preferences']['shortcode-function'];
+         $shortcode_function = USI_Variable_Solutions::$options['preferences']['shortcode-function'];
 
          fwrite($fh, 'function ' . $shortcode_function . '($attributes, $content = null) {' . PHP_EOL);
          fwrite($fh, '   $category = !empty($attributes[\'category\']) ? $attributes[\'category\'] : null;' . PHP_EOL);

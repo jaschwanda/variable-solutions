@@ -103,7 +103,7 @@ final class USI_Variable_Solutions_Variable {
             'notes' => 'Copy the above shortcode and paste into your posts/pages.' .
                ('date' == $this->options['category'] ? 
                ' For date-format-string see <a href="http://php.net/manual/en/function.date.php" target="_blank">php.net/manual/en/function.date.php</a>.' : '') ,
-            'value' => '[' . USI_Settings_Solutions::$options[USI_Variable_Solutions::PREFIX]['preferences']['shortcode-prefix'] .
+            'value' => '[' . USI_Variable_Solutions::$options['preferences']['shortcode-prefix'] .
                ('general' == $this->options['category'] ? '' : ' category="' . $this->options['category'] . '"') . 
                ' item="' .strtolower( $this->options['variable']) . '"' .
                ('date' == $this->options['category'] ? ' format="date-format-string"' : '') . 
@@ -201,7 +201,7 @@ final class USI_Variable_Solutions_Variable {
             add_settings_field(
                $field['name'], // Option name;
                __($field['title'], USI_Variable_Solutions::TEXTDOMAIN), // Field title;
-               array('USI_Settings_Solutions_Admin', 'fields_render'), // Render field callback;
+               array('USI_Settings_Solutions_Settings', 'fields_render_static'), // Render field callback;
                $this->page_slug, // Settings page menu slug;
                $this->section_id, // Section id;
                $field
@@ -316,15 +316,15 @@ final class USI_Variable_Solutions_Variable {
          $text = 'Order must be between 0 and 9999 inclusive';
          $type = 'error';
 
-      } else if (null != $wpdb->get_row($wpdb->prepare(
+      } else if (!empty($input['variable_id']) && (null != $wpdb->get_row($wpdb->prepare(
             "SELECT `variable_id` FROM `$SAFE_variable_table`" .
             ' WHERE (`category` = %s) AND (`variable` = %s) AND (`variable_id` <> %d)', 
-            $category, $variable, $input['variable_id']), OBJECT)) {
+            $category, $variable, $input['variable_id']), OBJECT))) {
 
          $text = 'Category and variable pair already in use';
          $type = 'error';
 
-      } else if ($input['variable_id']) {
+      } else if (!empty($input['variable_id'])) {
 
          $permission = !empty($_POST['usi-vs-variable-permission']) ? $_POST['usi-vs-variable-permission'] : null;
 
