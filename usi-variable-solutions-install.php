@@ -41,18 +41,6 @@ final class USI_Variable_Solutions_Install {
 
       $result = dbDelta($sql);
 
-      $SAFE_log_table = $wpdb->prefix . 'USI_log';
-
-      // The new-lines and double space after PRIMARY KEY are required;
-      $sql = "CREATE TABLE `$SAFE_log_table` " .
-         '(`log_id` int(10) unsigned NOT NULL AUTO_INCREMENT,' . PHP_EOL .
-         "`time_stamp` timestamp," . PHP_EOL .
-         "`user_id` bigint(20) unsigned DEFAULT '0'," . PHP_EOL .
-         '`action` text DEFAULT NULL,' . PHP_EOL .
-         'PRIMARY KEY  (`log_id`))';
-
-      $result = dbDelta($sql);
-
       $SAFE_variable_table = $wpdb->prefix . 'USI_variables';
 
       // The new-lines and double space after PRIMARY KEY are required;

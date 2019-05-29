@@ -12,6 +12,9 @@ Author URI:  https://www.usi2solve.com/leader
 Text Domain: usi-variable-solutions
 */
 
+// cannot add category;
+// cannot update capabilites, for user they don't stick;
+
 /*
 The Variable-Solutions plugin adds global variables to the WordPress content management system.
 Copyright (C) 2017 Jim Schwanda
