@@ -12,7 +12,6 @@ Author URI:  https://www.usi2solve.com/leader
 Text Domain: usi-variable-solutions
 */
 
-// cannot add category;
 // cannot update capabilites, for user they don't stick;
 
 /*
@@ -95,6 +94,7 @@ class USI_Variable_Solutions {
 new USI_Variable_Solutions();
 
 if (is_admin() && !defined('WP_UNINSTALL_PLUGIN')) {
+// check if this is required;
    require_once('usi-variable-solutions-admin.php');
    require_once('usi-variable-solutions-install.php');
    if (is_dir(plugin_dir_path(__DIR__) . 'usi-settings-solutions')) {

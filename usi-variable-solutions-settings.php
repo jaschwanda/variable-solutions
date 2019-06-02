@@ -14,103 +14,12 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
 
    function __construct() {
 
-      $this->sections = array(
-         'preferences' => array(
-            'header_callback' => array($this, 'config_section_header_preferences'),
-            'label' => 'Preferences',
-            'settings' => array(
-               'variable-prefix' => array(
-                  'type' => 'text', 
-                  'label' => 'Variable prefix',
-                  'notes' => 'Enter lower case text, no spaces or punctuation except the underscore. This is the string that prefixes <b>variable</b> in the <b>define(variable, "value")</b> statements in the variables.php file and is used to ensure that your variable names are unique. Defaults to the WordPress database prefix.',
-               ),
-               'shortcode-prefix' => array(
-                  'type' => 'text', 
-                  'label' => 'Shortcode identifier',
-                  'notes' => 'Enter lower case text, no spaces or punctuation. This is the <b>ID</b> in [<b>ID</b> attribute="value"] used to access the variable shortcodes in you content. Defaults to <b>variable</b>.',
-               ),
-               'shortcode-function' => array(
-                  'class' => 'regular-text', 
-                  'type' => 'text', 
-                  'label' => 'Shortcode function name',
-                  'notes' => 'Enter lower case text, no spaces or punctuation except the underscore. This is the name of the PHP function that executes the variable shortcodes. Defaults to <b>usi_variable_shortcode</b>.',
-               ),
-               'menu-icon' => array(
-                  'class' => 'regular-text', 
-                  'type' => 'text', 
-                  'label' => 'Variable list page menu icon',
-                  'notes' => 'Enter the dashicons text string, see <a href="https://developer.wordpress.org/resource/dashicons/" target="_blank">developer.wordpress.org/resource/dashicons</a> for choices. Defaults to <b>dashicons-controls-repeat</b>.',
-               ),
-               'menu-position' => array(
-                  'type' => 'text', 
-                  'label' => 'Variable list page menu position',
-                  'notes' => 'Enter a numeric value, blank or null appends the menu item to the bottom of the menu. Defaults to <b>null</b>.',
-               ),
-               'file-location' => array(
-                  'type' => 'radio', 
-                  'label' => 'Location of variables.php file',
-                  'choices' => array(
-                     array(
-                        'value' => 'plugin', 
-                        'label' => true, 
-                        'notes' => __('Plugin folder', USI_Variable_Solutions::TEXTDOMAIN), 
-                        'suffix' => ' &nbsp; &nbsp; &nbsp; ',
-                     ),
-                     array(
-                        'value' => 'theme', 
-                        'label' => true, 
-                        'notes' => __('Theme folder', USI_Variable_Solutions::TEXTDOMAIN), 
-                        'suffix' => ' &nbsp; &nbsp; &nbsp; ',
-                     ),
-                     array(
-                        'value' => 'root', 
-                        'label' => true, 
-                        'notes' => __('WordPress wp-config.php folder', USI_Variable_Solutions::TEXTDOMAIN), 
-                     ),
-                  ),
-                  'notes' => 'Defaults to <b>Plugin folder</b>.',
-               ), // file-location;
-            ),
-         ), // preferences;
-
-         'capabilities' => USI_Settings_Solutions_Capabilities::section(
-            USI_Variable_Solutions::NAME, 
-            USI_Variable_Solutions::PREFIX, 
-            USI_Variable_Solutions::TEXTDOMAIN,
-            USI_Variable_Solutions::$capabilities
-         ), // capabilities;
-
-         'publish' => array(
-            'header_callback' => array($this, 'config_section_header_publish'),
-            'label' => 'Publish',
-            'settings' => array(
-               'explaination' => array(
-                  'class' => 'regular-text', 
-                  'type' => 'textarea', 
-                  'label' => 'Explaination',
-                  'notes' => __('Enter up to 255 printable characters.', USI_Variable_Solutions::TEXTDOMAIN), 
-               ),
-            ),
-            'submit' => __('Publish Variables', USI_Variable_Solutions::TEXTDOMAIN),
-         ), // publish;
-      );
-
-      foreach ($this->sections as $name => & $section) {
-         foreach ($section['settings'] as $name => & $setting) {
-            if (!empty($setting['notes']))
-               $setting['notes'] = '<p class="description">' . __($setting['notes'], USI_Variable_Solutions::TEXTDOMAIN) . '</p>';
-         }
-      }
-      unset($setting);
-
       parent::__construct(
          USI_Variable_Solutions::NAME, 
          USI_Variable_Solutions::PREFIX, 
          USI_Variable_Solutions::TEXTDOMAIN,
          USI_Variable_Solutions::$options
       );
-
-      add_filter('plugin_row_meta', array($this, 'filter_plugin_row_meta'), 10, 2);
 
    } // __construct();
 
@@ -238,6 +147,102 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
       }
       return($links);
    } // filter_plugin_row_meta();
+
+   function sections() {
+
+      $sections = array(
+         'preferences' => array(
+            'header_callback' => array($this, 'config_section_header_preferences'),
+            'label' => 'Preferences',
+            'settings' => array(
+               'variable-prefix' => array(
+                  'type' => 'text', 
+                  'label' => 'Variable prefix',
+                  'notes' => 'Enter lower case text, no spaces or punctuation except the underscore. This is the string that prefixes <b>variable</b> in the <b>define(variable, "value")</b> statements in the variables.php file and is used to ensure that your variable names are unique. Defaults to the WordPress database prefix.',
+               ),
+               'shortcode-prefix' => array(
+                  'type' => 'text', 
+                  'label' => 'Shortcode identifier',
+                  'notes' => 'Enter lower case text, no spaces or punctuation. This is the <b>ID</b> in [<b>ID</b> attribute="value"] used to access the variable shortcodes in you content. Defaults to <b>variable</b>.',
+               ),
+               'shortcode-function' => array(
+                  'class' => 'regular-text', 
+                  'type' => 'text', 
+                  'label' => 'Shortcode function name',
+                  'notes' => 'Enter lower case text, no spaces or punctuation except the underscore. This is the name of the PHP function that executes the variable shortcodes. Defaults to <b>usi_variable_shortcode</b>.',
+               ),
+               'menu-icon' => array(
+                  'class' => 'regular-text', 
+                  'type' => 'text', 
+                  'label' => 'Variable list page menu icon',
+                  'notes' => 'Enter the dashicons text string, see <a href="https://developer.wordpress.org/resource/dashicons/" target="_blank">developer.wordpress.org/resource/dashicons</a> for choices. Defaults to <b>dashicons-controls-repeat</b>.',
+               ),
+               'menu-position' => array(
+                  'type' => 'text', 
+                  'label' => 'Variable list page menu position',
+                  'notes' => 'Enter a numeric value, blank or null appends the menu item to the bottom of the menu. Defaults to <b>null</b>.',
+               ),
+               'file-location' => array(
+                  'type' => 'radio', 
+                  'label' => 'Location of variables.php file',
+                  'choices' => array(
+                     array(
+                        'value' => 'plugin', 
+                        'label' => true, 
+                        'notes' => __('Plugin folder', USI_Variable_Solutions::TEXTDOMAIN), 
+                        'suffix' => ' &nbsp; &nbsp; &nbsp; ',
+                     ),
+                     array(
+                        'value' => 'theme', 
+                        'label' => true, 
+                        'notes' => __('Theme folder', USI_Variable_Solutions::TEXTDOMAIN), 
+                        'suffix' => ' &nbsp; &nbsp; &nbsp; ',
+                     ),
+                     array(
+                        'value' => 'root', 
+                        'label' => true, 
+                        'notes' => __('WordPress wp-config.php folder', USI_Variable_Solutions::TEXTDOMAIN), 
+                     ),
+                  ),
+                  'notes' => 'Defaults to <b>Plugin folder</b>.',
+               ), // file-location;
+            ),
+         ), // preferences;
+
+         'capabilities' => USI_Settings_Solutions_Capabilities::section(
+            USI_Variable_Solutions::NAME, 
+            USI_Variable_Solutions::PREFIX, 
+            USI_Variable_Solutions::TEXTDOMAIN,
+            USI_Variable_Solutions::$capabilities,
+            USI_Variable_Solutions::$options
+         ), // capabilities;
+
+         'publish' => array(
+            'header_callback' => array($this, 'config_section_header_publish'),
+            'label' => 'Publish',
+            'settings' => array(
+               'explaination' => array(
+                  'class' => 'regular-text', 
+                  'type' => 'textarea', 
+                  'label' => 'Explaination',
+                  'notes' => __('Enter up to 255 printable characters.', USI_Variable_Solutions::TEXTDOMAIN), 
+               ),
+            ),
+            'submit' => __('Publish Variables', USI_Variable_Solutions::TEXTDOMAIN),
+         ), // publish;
+      );
+
+      foreach ($sections as $name => & $section) {
+         foreach ($section['settings'] as $name => & $setting) {
+            if (!empty($setting['notes']))
+               $setting['notes'] = '<p class="description">' . __($setting['notes'], USI_Variable_Solutions::TEXTDOMAIN) . '</p>';
+         }
+      }
+      unset($setting);
+
+      return($sections);
+
+   } // sections();
 
 } // Class USI_Variable_Solutions_Settings;
 
