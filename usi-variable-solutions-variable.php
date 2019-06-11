@@ -4,7 +4,7 @@ defined('ABSPATH') or die('Accesss not allowed.');
 
 final class USI_Variable_Solutions_Variable {
 
-   const VERSION = '1.1.0 (2019-05-14)';
+   const VERSION = '1.1.1 (2019-06-12)';
 
    private $disable_save = false;
    private $error = false;
@@ -201,7 +201,7 @@ final class USI_Variable_Solutions_Variable {
             add_settings_field(
                $field['name'], // Option name;
                __($field['title'], USI_Variable_Solutions::TEXTDOMAIN), // Field title;
-               array('USI_Settings_Solutions_Settings', 'fields_render_static'), // Render field callback;
+               array('USI_WordPress_Solutions_Settings', 'fields_render_static'), // Render field callback;
                $this->page_slug, // Settings page menu slug;
                $this->section_id, // Section id;
                $field

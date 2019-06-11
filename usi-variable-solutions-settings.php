@@ -2,13 +2,13 @@
 
 defined('ABSPATH') or die('Accesss not allowed.');
 
-require_once(plugin_dir_path(__DIR__) . 'usi-settings-solutions/usi-settings-solutions-capabilities.php');
-require_once(plugin_dir_path(__DIR__) . 'usi-settings-solutions/usi-settings-solutions-settings.php');
-require_once(plugin_dir_path(__DIR__) . 'usi-settings-solutions/usi-settings-solutions-versions.php');
+require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-capabilities.php');
+require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-settings.php');
+require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-versions.php');
 
-class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
+class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
-   const VERSION = '1.1.0 (2019-05-14)';
+   const VERSION = '1.1.1 (2019-06-12)';
 
    protected $is_tabbed = true;
 
@@ -135,7 +135,7 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
 
    function filter_plugin_row_meta($links, $file) {
       if (false !== strpos($file, USI_Variable_Solutions::TEXTDOMAIN)) {
-         $links[0] = USI_Settings_Solutions_Versions::link(
+         $links[0] = USI_WordPress_Solutions_Versions::link(
             $links[0], 
             USI_Variable_Solutions::NAME, 
             USI_Variable_Solutions::VERSION, 
@@ -209,7 +209,7 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
             ),
          ), // preferences;
 
-         'capabilities' => USI_Settings_Solutions_Capabilities::section(
+         'capabilities' => USI_WordPress_Solutions_Capabilities::section(
             USI_Variable_Solutions::NAME, 
             USI_Variable_Solutions::PREFIX, 
             USI_Variable_Solutions::TEXTDOMAIN,
@@ -225,7 +225,7 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
                   'class' => 'regular-text', 
                   'type' => 'textarea', 
                   'label' => 'Explaination',
-                  'notes' => __('Enter up to 255 printable characters.', USI_Variable_Solutions::TEXTDOMAIN), 
+                  'notes' => 'Enter up to 255 printable characters.', 
                ),
             ),
             'submit' => __('Publish Variables', USI_Variable_Solutions::TEXTDOMAIN),
@@ -234,8 +234,9 @@ class USI_Variable_Solutions_Settings extends USI_Settings_Solutions_Settings {
 
       foreach ($sections as $name => & $section) {
          foreach ($section['settings'] as $name => & $setting) {
-            if (!empty($setting['notes']))
-               $setting['notes'] = '<p class="description">' . __($setting['notes'], USI_Variable_Solutions::TEXTDOMAIN) . '</p>';
+            if (!empty($setting['label'])) $setting['label'] = __($setting['label'], USI_Variable_Solutions::TEXTDOMAIN);
+            if (!empty($setting['notes'])) $setting['notes'] = '<p class="description">' . 
+               __($setting['notes'], USI_Variable_Solutions::TEXTDOMAIN) . '</p>';
          }
       }
       unset($setting);

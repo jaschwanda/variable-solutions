@@ -6,13 +6,11 @@ defined('ABSPATH') or die('Accesss not allowed.');
 Plugin Name: Variable-Solutions
 Plugin URI:  https://github.com/jaschwanda/variable-solutions
 Description: The Variable-Solutions plugin extends WordPress enabling the creation and management of variables that can be referenced as short codes in WordPress content and/or as defined variables in the supporting PHP files. It is a thin plugin that loads only one file when running in end user mode. The Variable-Solutions plugin is developed and maintained by Universal Solutions.
-Version:     1.1.0 (2019-05-14)
+Version:     1.1.1 (2019-06-12)
 Author:      Jim Schwanda
 Author URI:  https://www.usi2solve.com/leader
 Text Domain: usi-variable-solutions
 */
-
-// cannot update capabilites, for user they don't stick;
 
 /*
 The Variable-Solutions plugin adds global variables to the WordPress content management system.
@@ -30,7 +28,7 @@ You should have received a copy of the GNU General Public License along with Var
 
 class USI_Variable_Solutions {
 
-   const VERSION = '1.1.0 (2019-05-14)';
+   const VERSION = '1.1.1 (2019-06-12)';
    const NAME = 'Variable-Solutions';
    const PREFIX = 'usi-variable';
    const TEXTDOMAIN = 'usi-variable-solutions';
@@ -82,7 +80,7 @@ class USI_Variable_Solutions {
       if ('plugins.php' == $pagenow) {
         $text = sprintf(
            __('The %s plugin is required for the %s plugin to run properly.', self::TEXTDOMAIN), 
-           '<b>Settings-Solutions</b>',
+           '<b>WordPress-Solutions</b>',
            '<b>Variable-Solutions</b>'
         );
         echo '<div class="notice notice-warning is-dismissible"><p>' . $text . '</p></div>';
@@ -94,10 +92,9 @@ class USI_Variable_Solutions {
 new USI_Variable_Solutions();
 
 if (is_admin() && !defined('WP_UNINSTALL_PLUGIN')) {
-// check if this is required;
    require_once('usi-variable-solutions-admin.php');
    require_once('usi-variable-solutions-install.php');
-   if (is_dir(plugin_dir_path(__DIR__) . 'usi-settings-solutions')) {
+   if (is_dir(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions')) {
       require_once('usi-variable-solutions-settings.php'); 
    } else {
       add_action('admin_notices', array('USI_Variable_Solutions', 'action_admin_notices'));

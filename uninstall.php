@@ -1,12 +1,12 @@
 <?php // ------------------------------------------------------------------------------------------------------------------------ //
 
-require_once(plugin_dir_path(__DIR__) . 'usi-settings-solutions/usi-settings-solutions-uninstall.php');
+require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-uninstall.php');
 
 require_once('usi-variable-solutions.php');
 
 final class USI_Variable_Solutions_Uninstall {
 
-   const VERSION = '1.1.0 (2019-05-14)';
+   const VERSION = '1.1.1 (2019-06-12)';
 
    private function __construct() {
    } // __construct();
@@ -23,7 +23,7 @@ final class USI_Variable_Solutions_Uninstall {
 
 } // Class USI_Variable_Solutions_Uninstall;
 
-USI_Settings_Solutions_Uninstall::uninstall(USI_Variable_Solutions::PREFIX);
+USI_WordPress_Solutions_Uninstall::uninstall(USI_Variable_Solutions::PREFIX);
 
 USI_Variable_Solutions_Uninstall::uninstall();
 
