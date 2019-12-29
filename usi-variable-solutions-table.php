@@ -6,7 +6,7 @@ if (!class_exists('WP_List_Table')) { require_once(ABSPATH . 'wp-admin/includes/
 
 final class USI_Variable_Solutions_Table extends WP_List_Table {
 
-   const VERSION = '1.1.1 (2019-06-12)';
+   const VERSION = '1.2.0 (2019-12-29)';
 
    private $all_categories = null;
    private $category = null;
@@ -20,9 +20,6 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
 
       add_action('admin_head', array($this, 'action_admin_head'));
       add_action('admin_menu', array($this, 'action_admin_menu'));
-
-      // Enqueues the default ThickBox js and css;
-      add_action('init', 'add_thickbox');
 
       add_filter('set-screen-option', array($this, 'filter_set_screen_options'), 10, 3);
 
