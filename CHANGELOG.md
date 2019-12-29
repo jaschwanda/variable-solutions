@@ -2,8 +2,12 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 1.2.0 (2019-12-29) ##
+* Added WordPress-Solutions updated for downloading directly from GIT.
+* Updated all plugin version numbers to match.
+
 ## 1.1.1 (2019-06-12) ##
-* Removed usi-settings files from sub-folder under parent plugin and made a stand alone class, changed the name to 'Settinds-Solutions.
+* Removed usi-settings files from sub-folder under parent plugin and made a stand alone class.
 * Updated all plugin version numbers to match.
 
 ## 1.0.8 (2018-01-10) ##
