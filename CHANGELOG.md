@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 1.2.1 (2020-01-01) ##
+* Added 'Updates' tab to settings page to optionally allow GitHub updates.
+
 ## 1.2.0 (2019-12-29) ##
 * Added WordPress-Solutions updated for downloading directly from GIT.
 * Updated all plugin version numbers to match.

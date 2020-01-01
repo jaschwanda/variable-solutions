@@ -4,11 +4,12 @@ defined('ABSPATH') or die('Accesss not allowed.');
 
 require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-capabilities.php');
 require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-settings.php');
+require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-updates.php');
 require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-versions.php');
 
 class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
-   const VERSION = '1.2.0 (2019-12-29)';
+   const VERSION = '1.2.1 (2020-01-01)';
 
    protected $is_tabbed = true;
 
@@ -31,6 +32,10 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
       if ('root' == ($folder = USI_Variable_Solutions::get_variables_folder())) $folder = 'WordPress wp-config.php';
       echo '<p>' . sprintf(__('Enter an explaination for publishing the variables and click on the <b>Publish Variables</b> button. The variables.php file will be published in the %s folder.', USI_Variable_Solutions::TEXTDOMAIN), $folder) . '</p>' . PHP_EOL;
    } // config_section_header_publish();
+
+   function config_section_header_updates() {
+      echo '<p>' . __('GitHub is a code hosting platform for version control and collaboration. It is used to publish updates for this WordPress plugin.', USI_Variable_Solutions::TEXTDOMAIN) . '</p>' . PHP_EOL;
+   } // config_section_header_updates();
 
    function fields_sanitize($input) {
       if (!empty($input['preferences']['menu-icon'])) {
@@ -230,6 +235,11 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
             ),
             'submit' => __('Publish Variables', USI_Variable_Solutions::TEXTDOMAIN),
          ), // publish;
+
+         'updates' => USI_WordPress_Solutions_Updates::section(
+            USI_Variable_Solutions::TEXTDOMAIN
+         ), // updates;
+
       );
 
       foreach ($sections as $name => & $section) {
