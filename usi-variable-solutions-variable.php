@@ -4,7 +4,7 @@ defined('ABSPATH') or die('Accesss not allowed.');
 
 final class USI_Variable_Solutions_Variable {
 
-   const VERSION = '2.3.1 (2020-01-01)';
+   const VERSION = '1.2.1 (2020-01-01)';
 
    private $disable_save = false;
    private $error = false;
