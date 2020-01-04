@@ -3,18 +3,35 @@
 defined('ABSPATH') or die('Accesss not allowed.');
 
 /* 
-Plugin Name: Variable-Solutions
-Plugin URI:  https://github.com/jaschwanda/variable-solutions
-Description: The Variable-Solutions plugin extends WordPress enabling the creation and management of variables that can be referenced as short codes in WordPress content and/or as defined variables in the supporting PHP files. It is a thin plugin that loads only one file when running in end user mode. The Variable-Solutions plugin is developed and maintained by Universal Solutions.
-Version:     1.2.1 (2020-01-01)
-Author:      Jim Schwanda
-Author URI:  https://www.usi2solve.com/leader
-Text Domain: usi-variable-solutions
+Plugin Name:       Variable-Solutions
+Plugin URI:        https://github.com/jaschwanda/variable-solutions
+Description:       The Variable-Solutions plugin extends WordPress enabling the creation and management of variables that can be referenced as short codes in WordPress content and/or as defined variables in the supporting PHP files. It is a thin plugin that loads only one file when running in end user mode. The Variable-Solutions plugin is developed and maintained by Universal Solutions.
+Version:           2.0.0 (2020-01-04)
+Requires at least: 5.0
+Requires PHP:      5.6.25
+Author:            Jim Schwanda
+Author URI:        https://www.usi2solve.com/leader
+License:           GPL-3.0
+License URI:       https://github.com/jaschwanda/variable-solutions/blob/master/LICENSE.md
+Text Domain:       usi-variable-solutions
+*/
+
+/*
+Variable-Solutions is free software: you can redistribute it and/or modify it under the terms of the GNU General Public 
+License as published by the Free Software Foundation, either version 3 of the License, or any later version.
+ 
+Variable-Solutions is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ 
+You should have received a copy of the GNU General Public License along with Variable-Solutions. If not, see 
+https://github.com/jaschwanda/variable-solutions/blob/master/LICENSE.md
+
+Copyright (c) 2020 by Jim Schwanda.
 */
 
 class USI_Variable_Solutions {
 
-   const VERSION = '1.2.1 (2020-01-01)';
+   const VERSION = '2.0.0 (2020-01-04)';
    const NAME = 'Variable-Solutions';
    const PREFIX = 'usi-variable';
    const TEXTDOMAIN = 'usi-variable-solutions';
