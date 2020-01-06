@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 2.0.2 (2020-01-06) ##
+* Changed format of version number.
+
 ## 2.0.1 (2020-01-04b) ##
 * Added .gitattributes to exclude *.md files from release.
 
