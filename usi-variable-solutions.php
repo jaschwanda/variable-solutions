@@ -3,17 +3,19 @@
 defined('ABSPATH') or die('Accesss not allowed.');
 
 /* 
-Plugin Name:       Variable-Solutions
-Plugin URI:        https://github.com/jaschwanda/variable-solutions
-Description:       The Variable-Solutions plugin extends WordPress enabling the creation and management of variables that can be referenced as short codes in WordPress content and/or as defined variables in the supporting PHP files. It is a thin plugin that loads only one file when running in end user mode. The Variable-Solutions plugin is developed and maintained by Universal Solutions.
-Version:           2.0.2
-Requires at least: 5.0
-Requires PHP:      5.6.25
 Author:            Jim Schwanda
 Author URI:        https://www.usi2solve.com/leader
+Description:       The Variable-Solutions plugin extends WordPress enabling the creation and management of variables that can be referenced as short codes in WordPress content and/or as defined variables in the supporting PHP files. It is a thin plugin that loads only one file when running in end user mode. The Variable-Solutions plugin is developed and maintained by Universal Solutions.
+Donate link:       https://www.usi2solve.com/donate/variable-solutions
 License:           GPL-3.0
 License URI:       https://github.com/jaschwanda/variable-solutions/blob/master/LICENSE.md
+Plugin Name:       Variable-Solutions
+Plugin URI:        https://github.com/jaschwanda/variable-solutions
+Requires at least: 5.0
+Requires PHP:      5.6.25
+Tested up to:      5.3.2
 Text Domain:       usi-variable-solutions
+Version:           2.0.3
 */
 
 /*
@@ -31,7 +33,7 @@ Copyright (c) 2020 by Jim Schwanda.
 
 class USI_Variable_Solutions {
 
-   const VERSION = '2.0.2 (2020-01-06)';
+   const VERSION = '2.0.3 (2020-01-07)';
    const NAME = 'Variable-Solutions';
    const PREFIX = 'usi-variable';
    const TEXTDOMAIN = 'usi-variable-solutions';

@@ -17,7 +17,7 @@ Copyright (c) 2020 by Jim Schwanda.
 
 final class USI_Variable_Solutions_Install {
 
-   const VERSION = '2.0.0 (2020-01-04)';
+   const VERSION = '2.0.3 (2020-01-07)';
 
    const VERSION_DATA = '1.0';
 
