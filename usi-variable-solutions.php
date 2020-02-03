@@ -15,7 +15,7 @@ Requires at least: 5.0
 Requires PHP:      5.6.25
 Tested up to:      5.3.2
 Text Domain:       usi-variable-solutions
-Version:           2.0.3
+Version:           2.0.4
 */
 
 /*
@@ -33,7 +33,7 @@ Copyright (c) 2020 by Jim Schwanda.
 
 class USI_Variable_Solutions {
 
-   const VERSION = '2.0.3 (2020-01-07)';
+   const VERSION = '2.0.4 (2020-02-03)';
    const NAME = 'Variable-Solutions';
    const PREFIX = 'usi-variable';
    const TEXTDOMAIN = 'usi-variable-solutions';
@@ -103,7 +103,7 @@ if (is_admin() && !defined('WP_UNINSTALL_PLUGIN')) {
       require_once('usi-variable-solutions-settings.php'); 
       if (!empty(USI_Variable_Solutions::$options['updates']['git-update'])) {
          require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-update.php');
-         new USI_WordPress_Solutions_Update(__FILE__, 'jaschwanda', 'variable-solutions');
+         new USI_WordPress_Solutions_Update_GitHub(__FILE__, 'jaschwanda', 'variable-solutions');
       }
    } else {
       add_action('admin_notices', array('USI_Variable_Solutions', 'action_admin_notices'));
