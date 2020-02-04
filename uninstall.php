@@ -21,7 +21,7 @@ require_once('usi-variable-solutions.php');
 
 final class USI_Variable_Solutions_Uninstall {
 
-   const VERSION = '2.0.3 (2020-01-07)';
+   const VERSION = '2.0.5 (2020-02-04)';
 
    private function __construct() {
    } // __construct();

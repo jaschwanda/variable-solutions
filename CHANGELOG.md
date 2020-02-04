@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 2.0.5 (2020-02-04) ##
+* Improved update handling.
+
 ## 2.0.4 (2020-02-03) ##
 * Changed code to handle multiple repository sources for updates.
 
