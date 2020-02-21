@@ -15,7 +15,7 @@ Requires at least: 5.0
 Requires PHP:      5.6.25
 Tested up to:      5.3.2
 Text Domain:       usi-variable-solutions
-Version:           2.0.5
+Version:           2.1.0
 */
 
 /*
@@ -33,20 +33,20 @@ Copyright (c) 2020 by Jim Schwanda.
 
 class USI_Variable_Solutions {
 
-   const VERSION = '2.0.5 (2020-02-04)';
+   const VERSION = '2.1.0 (2020-02-21)';
    const NAME = 'Variable-Solutions';
    const PREFIX = 'usi-variable';
    const TEXTDOMAIN = 'usi-variable-solutions';
 
    public static $capabilities = array(
-      'View-Variables' => 'View variables',
-      'Change-Values' => 'Change values',
-      'Add-Variables' => 'Add variables',
-      'Edit-Variables' => 'Edit variables',
-      'Delete-Variables' => 'Delete variables',
-      'Publish-Variables' => 'Publish variables',
-      'View-Settings' => 'View settings',
-      'Edit-Preferences' => 'Edit preferences',
+      'view-variables' => 'View variables|administrator',
+      'change-values' => 'Change values|administrator',
+      'add-variables' => 'Add variables|administrator',
+      'edit-variables' => 'Edit variables|administrator',
+      'delete-variables' => 'Delete variables|administrator',
+      'publish-variables' => 'Publish variables|administrator',
+      'view-settings' => 'View settings|administrator',
+      'edit-preferences' => 'Edit preferences|administrator',
    );
 
    public static $options = array();
