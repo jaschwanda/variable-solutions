@@ -17,7 +17,7 @@ Copyright (c) 2020 by Jim Schwanda.
 
 final class USI_Variable_Solutions_Admin {
 
-   const VERSION = '2.0.5 (2020-02-04)';
+   const VERSION = '2.1.0 (2020-02-21)';
 
    public static $variables_add     = false;
    public static $variables_change  = false;
