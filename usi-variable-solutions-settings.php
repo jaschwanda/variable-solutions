@@ -22,17 +22,21 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
-   const VERSION = '2.0.5 (2020-02-04)';
+   const VERSION = '2.1.0 (2020-02-21)';
 
    protected $is_tabbed = true;
 
    function __construct() {
 
       parent::__construct(
-         USI_Variable_Solutions::NAME, 
-         USI_Variable_Solutions::PREFIX, 
-         USI_Variable_Solutions::TEXTDOMAIN,
-         USI_Variable_Solutions::$options
+         array(
+            'name' => USI_Variable_Solutions::NAME, 
+            'prefix' => USI_Variable_Solutions::PREFIX, 
+            'text_domain' => USI_Variable_Solutions::TEXTDOMAIN,
+            'options' => USI_Variable_Solutions::$options,
+            'capabilities' => USI_Variable_Solutions::$capabilities,
+            'file' => str_replace('-settings', '', __FILE__), // Plugin main file, this initializes capabilities on plugin activation;
+         )
       );
 
    } // __construct();
@@ -168,6 +172,8 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
          'preferences' => array(
             'header_callback' => array($this, 'config_section_header_preferences'),
             'label' => 'Preferences',
+            'localize_labels' => 'yes',
+            'localize_notes' => 3, // <p class="description">__()</p>;
             'settings' => array(
                'variable-prefix' => array(
                   'type' => 'text', 
@@ -223,13 +229,7 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
             ),
          ), // preferences;
 
-         'capabilities' => USI_WordPress_Solutions_Capabilities::section(
-            USI_Variable_Solutions::NAME, 
-            USI_Variable_Solutions::PREFIX, 
-            USI_Variable_Solutions::TEXTDOMAIN,
-            USI_Variable_Solutions::$capabilities,
-            USI_Variable_Solutions::$options
-         ), // capabilities;
+         'capabilities' => new USI_WordPress_Solutions_Capabilities($this),
 
          'publish' => array(
             'header_callback' => array($this, 'config_section_header_publish'),
@@ -245,20 +245,9 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
             'submit' => __('Publish Variables', USI_Variable_Solutions::TEXTDOMAIN),
          ), // publish;
 
-         'updates' => USI_WordPress_Solutions_Updates::section(
-            USI_Variable_Solutions::TEXTDOMAIN
-         ), // updates;
+         'updates' => new USI_WordPress_Solutions_Updates($this),
 
       );
-
-      foreach ($sections as $name => & $section) {
-         foreach ($section['settings'] as $name => & $setting) {
-            if (!empty($setting['label'])) $setting['label'] = __($setting['label'], USI_Variable_Solutions::TEXTDOMAIN);
-            if (!empty($setting['notes'])) $setting['notes'] = '<p class="description">' . 
-               __($setting['notes'], USI_Variable_Solutions::TEXTDOMAIN) . '</p>';
-         }
-      }
-      unset($setting);
 
       return($sections);
 
