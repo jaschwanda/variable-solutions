@@ -15,13 +15,15 @@ https://github.com/jaschwanda/variable-solutions/blob/master/LICENSE.md
 Copyright (c) 2020 by Jim Schwanda.
 */
 
+if (!defined('WP_UNINSTALL_PLUGIN')) exit;
+
 require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-uninstall.php');
 
 require_once('usi-variable-solutions.php');
 
 final class USI_Variable_Solutions_Uninstall {
 
-   const VERSION = '2.0.5 (2020-02-04)';
+   const VERSION = '2.1.0 (2020-02-21)';
 
    private function __construct() {
    } // __construct();
@@ -29,8 +31,6 @@ final class USI_Variable_Solutions_Uninstall {
    static function uninstall() {
 
       global $wpdb;
-
-      if (!defined('WP_UNINSTALL_PLUGIN')) exit;
 
       $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}USI_variables");
 
