@@ -15,9 +15,11 @@ https://github.com/jaschwanda/variable-solutions/blob/master/LICENSE.md
 Copyright (c) 2020 by Jim Schwanda.
 */
 
+require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-static.php');
+
 final class USI_Variable_Solutions_Variable {
 
-   const VERSION = '2.1.0 (2020-02-21)';
+   const VERSION = '2.1.2 (2020-03-31)';
 
    private $disable_save = false;
    private $error = false;
@@ -34,7 +36,9 @@ final class USI_Variable_Solutions_Variable {
       $this->page_active = !empty($_GET['page']) && ($this->page_slug == $_GET['page']) ? true : false;
 
       if ($action || $this->page_active) {
-         add_action('admin_head', array($this, 'action_admin_head'));
+         if ($this->page_active) {
+            add_action('admin_head', array('USI_WordPress_Solutions_Static', 'action_admin_head'));
+         }
          add_action('admin_init', array($this, 'action_admin_init'));
          add_action('admin_menu', array($this, 'action_admin_menu'));
       }
@@ -42,14 +46,6 @@ final class USI_Variable_Solutions_Variable {
       add_filter('option_page_capability_' . $this->section_id, array($this, 'filter_option_page_capability'), 10, 2);
 
    } // __construct();
-
-   function action_admin_head() {
-      echo 
-         '<style>' . PHP_EOL .
-         '.form-table td{padding-bottom:12px; padding-top:2px;} /* 25px; */' . PHP_EOL .
-         '.form-table th{padding-bottom:7px; padding-top:7px;} /* 20px; */' . PHP_EOL .
-         '</style>' . PHP_EOL;
-   } // action_admin_head();
 
    function action_admin_init() {
 

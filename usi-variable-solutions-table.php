@@ -17,24 +17,30 @@ Copyright (c) 2020 by Jim Schwanda.
 
 if (!class_exists('WP_List_Table')) { require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php'); }
 
+require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-static.php');
+
 final class USI_Variable_Solutions_Table extends WP_List_Table {
 
-   const VERSION = '2.1.0 (2020-02-21)';
+   const VERSION = '2.1.1 (2020-03-22)';
 
    private $all_categories = null;
    private $category = null;
    private $options_category = null;
    private $page_hook = null;
-   private $page_slug = 'usi-vs-variables';
 
    function __construct() {
 
       $this->options_category = USI_Variable_Solutions::PREFIX . '-options-category';
 
-      add_action('admin_head', array($this, 'action_admin_head'));
       add_action('admin_menu', array($this, 'action_admin_menu'));
 
-      add_filter('set-screen-option', array($this, 'filter_set_screen_options'), 10, 3);
+      if (!empty($_GET['page']) && (USI_Variable_Solutions::VARYLIST == $_GET['page'])) {
+
+         add_action('admin_head', array($this, 'action_admin_head'));
+
+         add_filter('set-screen-option', array($this, 'filter_set_screen_options'), 10, 3);
+
+      }
 
       $this->category = $this->all_categories = __('All Categories', USI_Variable_Solutions::TEXTDOMAIN);
 
@@ -42,37 +48,21 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
 
    function action_admin_head() {
 
-      if($this->page_slug != ((isset($_GET['page'])) ? $_GET['page'] : '')) return;
+      if(USI_Variable_Solutions::VARYLIST != ((isset($_GET['page'])) ? $_GET['page'] : '')) return;
 
       $columns = array(
-         'id'       => 10, 
-         'variable' => 15, 
-         'category' => 10, 
-         'type'     => 10, 
-         'value'    => 15, 
-         'notes'    => 15, 
-         'owner'    => 10, 
-         'updated'  => 15,
+         'cb'          => 3, 
+         'variable_id' => 7, 
+         'variable'    => 15, 
+         'category'    => 10, 
+         'type'        => 10, 
+         'value'       => 15, 
+         'notes'       => 15, 
+         'owner'       => 10, 
+         'updated'     => 15,
       );
 
-      $hidden = $this->get_hidden_columns();
-
-      foreach ($hidden as $hide) {
-         unset($columns[$hide]);
-      }
-
-      $total = 0;
-      foreach ($columns as $width) { 
-         $total += $width;
-      }
-
-      echo '<style>' . PHP_EOL;
-      foreach ($columns as $name => $width) { 
-         $percent = number_format(100 * $width / $total, 1);
-         echo '.wp-list-table .column-' . $name . '{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:' . 
-            $percent . '%;}' . PHP_EOL;
-      }
-      echo '</style>' . PHP_EOL;
+      echo USI_WordPress_Solutions_Static::column_style($columns, 'border:solid 1px red; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;');
 
    } // action_admin_head();
 
@@ -82,7 +72,7 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
          __(USI_Variable_Solutions::NAME, USI_Variable_Solutions::TEXTDOMAIN), // Text displayed in <title> when menu is selected;
          __('Variables', USI_Variable_Solutions::TEXTDOMAIN), // Text displayed in menu; 
          USI_Variable_Solutions::NAME . '-View-Variables', // Capability required to enable page; 
-         $this->page_slug, // Unique slug to of this menu; 
+         USI_Variable_Solutions::VARYLIST, // Unique slug to of this menu; 
          array($this, 'render_page'), // Function called to render page content;
          USI_Variable_Solutions::$options['preferences']['menu-icon'], // Menu icon;
          USI_Variable_Solutions::$options['preferences']['menu-position'] // Menu position;
@@ -116,7 +106,7 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
 
    function column_cb($item) {
 
-      return('<input class="usi-vs-variable"' .
+      return('<input class="' . USI_Variable_Solutions::VARYLIST . '"' .
          ' data-id="' . esc_attr($item['variable_id']) . '"' .
          ' data-name="' . esc_attr($item['variable']) . '"' .
          ' data-value="' . esc_attr($item['value']) . '"' .
@@ -371,7 +361,7 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
          __('Publish', USI_Variable_Solutions::TEXTDOMAIN) . '</a>';
   ?></h2>
   <?php if ($message) echo $message . PHP_EOL;?>
-  <form action="" method="post" name="usi-vs-variables">
+  <form action="" method="post" name="<?php echo USI_Variable_Solutions::VARYLIST;?>">
     <input type="hidden" name="page" value="<?php echo $_REQUEST['page'];?>">
 <?php
       $this->prepare_items(); 
@@ -431,7 +421,7 @@ jQuery(document).ready(
          html += '</p><hr/><p>';
 
          if (count_of_variables) html += 
-            '<a class="button" href="?page=usi-vs-variables&action=delete&variable_id=' +
+            '<a class="button" href="?page=' . USI_Variable_Solutions::VARYLIST . '&action=delete&variable_id=' +
             id + '">' + text_delete + '</a> &nbsp; ';
 
          html += '<a class="button" href="" onclick="tb_remove()">' +
