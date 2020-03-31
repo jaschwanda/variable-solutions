@@ -62,7 +62,7 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
          'updated'     => 15,
       );
 
-      echo USI_WordPress_Solutions_Static::column_style($columns, 'border:solid 1px red; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;');
+      echo USI_WordPress_Solutions_Static::column_style($columns, 'overflow:hidden; text-overflow:ellipsis; white-space:nowrap;');
 
    } // action_admin_head();
 
