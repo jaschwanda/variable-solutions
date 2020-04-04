@@ -421,7 +421,7 @@ jQuery(document).ready(
          html += '</p><hr/><p>';
 
          if (count_of_variables) html += 
-            '<a class="button" href="?page=' . USI_Variable_Solutions::VARYLIST . '&action=delete&variable_id=' +
+            '<a class="button" href="?page=<?php echo USI_Variable_Solutions::VARYLIST;?>&action=delete&variable_id=' +
             id + '">' + text_delete + '</a> &nbsp; ';
 
          html += '<a class="button" href="" onclick="tb_remove()">' +
