@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 2.2.0 (2020-06-16) ##
+* Resolved permission and capability issues, reworked install, activation and deactivation scheme, set all version numbers to same version.
+
 ## 2.1.2 (2020-03-31) ##
 * Added use of WordPress-Solutions static class for 'action_admin_head'.
 

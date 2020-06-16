@@ -15,22 +15,18 @@ https://github.com/jaschwanda/variable-solutions/blob/master/LICENSE.md
 Copyright (c) 2020 by Jim Schwanda.
 */
 
+require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-capabilities.php');
+
 final class USI_Variable_Solutions_Install {
 
-   const VERSION = '2.1.0 (2020-02-21)';
+   const VERSION      = '2.2.0 (2020-06-16)';
 
    const VERSION_DATA = '1.0';
 
    private function __construct() {
    } // __construct();
 
-   static function init() {
-      $file = str_replace('-install', '', __FILE__);
-      register_activation_hook($file, array(__CLASS__, 'hook_activation'));
-      register_deactivation_hook($file, array(__CLASS__, 'hook_deactivation'));
-   } // init();
-
-   static function hook_activation() {
+   public static function _activation() {
 
       global $wpdb;
 
@@ -110,23 +106,12 @@ final class USI_Variable_Solutions_Install {
          );
       }
 
-      $role = get_role('administrator');
-      foreach (USI_Variable_Solutions::$capabilities as $capability => $description) {
-         $role->add_cap(USI_Variable_Solutions::NAME . '-' . $capability);
-      }
+      USI_WordPress_Solutions_Capabilities::init(USI_Variable_Solutions::PREFIX, USI_Variable_Solutions::$capabilities);
 
-   } // hook_activation();
-
-   static function hook_deactivation() {
-
-      if (!current_user_can('activate_plugins')) return;
-
-      check_admin_referer('deactivate-plugin_' . (isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : ''));
-
-   } // hook_deactivation();
+   } // _activation();
 
 } // Class USI_Variable_Solutions_Install;
 
-USI_Variable_Solutions_Install::init();
+USI_Variable_Solutions_Install::_activation();
 
 // --------------------------------------------------------------------------------------------------------------------------- // ?>

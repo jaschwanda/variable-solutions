@@ -17,13 +17,14 @@ Copyright (c) 2020 by Jim Schwanda.
 
 if (!defined('WP_UNINSTALL_PLUGIN')) exit;
 
+require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-capabilities.php');
 require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-uninstall.php');
 
 require_once('usi-variable-solutions.php');
 
 final class USI_Variable_Solutions_Uninstall {
 
-   const VERSION = '2.1.0 (2020-02-21)';
+   const VERSION = '2.2.0 (2020-06-16)';
 
    private function __construct() {
    } // __construct();
@@ -33,6 +34,8 @@ final class USI_Variable_Solutions_Uninstall {
       global $wpdb;
 
       $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}USI_variables");
+
+      USI_WordPress_Solutions_Capabilities::remove(USI_Variable_Solutions::PREFIX, USI_Variable_Solutions::$capabilities);
 
    } // uninstall();
 

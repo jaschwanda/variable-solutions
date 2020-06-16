@@ -21,7 +21,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 final class USI_Variable_Solutions_Table extends WP_List_Table {
 
-   const VERSION = '2.1.1 (2020-03-22)';
+   const VERSION = '2.2.0 (2020-06-16)';
 
    private $all_categories = null;
    private $category = null;
@@ -48,7 +48,7 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
 
    function action_admin_head() {
 
-      if(USI_Variable_Solutions::VARYLIST != ((isset($_GET['page'])) ? $_GET['page'] : '')) return;
+      if (USI_Variable_Solutions::VARYLIST != ((isset($_GET['page'])) ? $_GET['page'] : '')) return;
 
       $columns = array(
          'cb'          => 3, 
@@ -68,10 +68,12 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
 
    function action_admin_menu() {
 
+      $capability = USI_WordPress_Solutions_Capabilities::capability_slug(USI_Variable_Solutions::PREFIX, 'view-variables');
+
       $this->page_hook = add_menu_page(
          __(USI_Variable_Solutions::NAME, USI_Variable_Solutions::TEXTDOMAIN), // Text displayed in <title> when menu is selected;
          __('Variables', USI_Variable_Solutions::TEXTDOMAIN), // Text displayed in menu; 
-         USI_Variable_Solutions::NAME . '-View-Variables', // Capability required to enable page; 
+         $capability, // Capability required to enable page; 
          USI_Variable_Solutions::VARYLIST, // Unique slug to of this menu; 
          array($this, 'render_page'), // Function called to render page content;
          USI_Variable_Solutions::$options['preferences']['menu-icon'], // Menu icon;
@@ -142,14 +144,14 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
 
       $actions = array();
 
-      if (USI_Variable_Solutions_Admin::$variables_change || USI_Variable_Solutions_Admin::$variables_edit) {
-         $actions['edit'] = '<a href="options-general.php?page=usi-vs-variable&variable_id=' .
+      if (USI_Variable_Solutions::$variables_change || USI_Variable_Solutions::$variables_edit) {
+         $actions['edit'] = '<a href="options-general.php?page=usi-variable&variable_id=' .
             $item['variable_id'] . '">' . __('Edit', USI_Variable_Solutions::TEXTDOMAIN) . '</a>';
       }
 
-      if (USI_Variable_Solutions_Admin::$variables_delete) {
+      if (USI_Variable_Solutions::$variables_delete) {
          $actions['delete'] = '<a' .
-            ' class="thickbox usi-vs-variable-delete-link"' .
+            ' class="thickbox usi-variable-delete-link"' .
             ' data-id="' . esc_attr($item['variable_id']) . '"' .
             ' data-name="' . esc_attr($item['variable']) . '"' .
             ' data-value="' . esc_attr($item['value']) . '"' .
@@ -175,7 +177,7 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
          foreach ($rows as $row) {
             echo '<option ' . (($row->category == $this->category) ? 'selected="selected" ' : '') . 'value="' . $row->category . '">' . $row->category . '</option>';
          }
-         echo '</select><input class="button action" type="submit" name="usi-vs-filter" id="usi-vs-filter" value="Filter" /></div>' . PHP_EOL;
+         echo '</select><input class="button action" type="submit" name="usi-filter" id="usi-filter" value="Filter" /></div>' . PHP_EOL;
       }
 
    } // extra_tablenav();
@@ -228,7 +230,7 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
 
       $paged = (int)(isset($_GET['paged']) ? $_GET['paged'] : 1);
 
-      $filter = $this->safe_name(isset($_POST['usi-vs-filter']) ? $_POST['usi-vs-filter'] : '');
+      $filter = $this->safe_name(isset($_POST['usi-filter']) ? $_POST['usi-filter'] : '');
       if ('Filter' == $filter) $paged = 1;
 
       $SAFE_order = (isset($_GET['order'])) ? (('desc' == strtolower($_GET['order'])) ? 'DESC' : '') : '';
@@ -326,7 +328,7 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
       $action = $this->current_action();
 
       if ('delete' == $action) {
-         if (USI_Variable_Solutions_Admin::$variables_delete) {
+         if (USI_Variable_Solutions::$variables_delete) {
             $SAFE_variable_table = $wpdb->prefix . 'USI_variables';
             $ids = isset($_REQUEST['variable_id']) ? explode(',', $_REQUEST['variable_id']) : array();
             $variables_deleted = count($ids);
@@ -353,10 +355,10 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
 <div class="wrap">
   <h2><?php 
    _e('Variables', USI_Variable_Solutions::TEXTDOMAIN); 
-   if (USI_Variable_Solutions_Admin::$variables_add) 
-      echo ' <a class="add-new-h2" href="options-general.php?page=usi-vs-variable">' . 
+   if (USI_Variable_Solutions::$variables_add) 
+      echo ' <a class="add-new-h2" href="options-general.php?page=usi-variable">' . 
          __('Add New', USI_Variable_Solutions::TEXTDOMAIN) . '</a>';
-   if (USI_Variable_Solutions_Admin::$variables_publish) 
+   if (USI_Variable_Solutions::$variables_publish) 
       echo ' <a class="add-new-h2" href="options-general.php?page=usi-variable-settings&tab=publish">' . 
          __('Publish', USI_Variable_Solutions::TEXTDOMAIN) . '</a>';
   ?></h2>
@@ -370,7 +372,7 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
 ?>
   </form>
 </div>
-<div id="usi-vs-variable-confirm" style="display:none;"></div>
+<div id="usi-variable-confirm" style="display:none;"></div>
 <script>
 jQuery(document).ready(
    function($) {
@@ -385,7 +387,7 @@ jQuery(document).ready(
 
       function do_action() {
 
-         var ids = $('.usi-vs-variable');
+         var ids = $('.usi-variable');
          var id_list = '';
          var text = '';
 
@@ -427,9 +429,9 @@ jQuery(document).ready(
          html += '<a class="button" href="" onclick="tb_remove()">' +
             (count_of_variables ? text_cancel : text_ok) + '</a>';
 
-         $('#usi-vs-variable-confirm').html(html);
+         $('#usi-variable-confirm').html(html);
 
-         tb_show('Variable-Solutions', '#TB_inline?width=500&height=300&inlineId=usi-vs-variable-confirm', null);
+         tb_show('Variable-Solutions', '#TB_inline?width=500&height=300&inlineId=usi-variable-confirm', null);
 
          return(false);
 
@@ -439,7 +441,7 @@ jQuery(document).ready(
 
       $('#doaction2').click(do_action); 
 
-      $('.usi-vs-variable-delete-link').click(
+      $('.usi-variable-delete-link').click(
          function(event) {
             var obj = event.target;
             var id = obj.getAttribute('data-id');

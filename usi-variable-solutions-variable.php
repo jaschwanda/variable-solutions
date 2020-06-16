@@ -19,16 +19,16 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 final class USI_Variable_Solutions_Variable {
 
-   const VERSION = '2.1.2 (2020-03-31)';
+   const VERSION = '2.2.0 (2020-06-16)';
 
    private $disable_save = false;
-   private $error = false;
-   private $option_name = 'usi-vs-variable-dummy';
-   private $page_active = false;
-   private $page_slug = 'usi-vs-variable';
-   private $permission = 'Edit-Variables';
-   private $readonly = false;
-   private $section_id = 'usi-vs-variable';
+   private $error        = false;
+   private $option_name  = 'usi-variable-dummy';
+   private $page_active  = false;
+   private $page_slug    = 'usi-variable';
+   private $permission   = 'edit-variables';
+   private $readonly     = false;
+   private $section_id   = 'usi-variable';
 
    function __construct() {
 
@@ -96,7 +96,7 @@ final class USI_Variable_Solutions_Variable {
          $fields[] = array(
             'name' => $this->option_name . '[' . ($id = 'variable_id') . ']',
             'title' => 'Id',
-            'class' => 'regular-text', 
+            'f-class' => 'regular-text', 
             'readonly' => true,
             'type' => 'text', 
             'notes' => 'The variable Id cannot be changed.',
@@ -106,7 +106,7 @@ final class USI_Variable_Solutions_Variable {
          $fields[] = array(
             'name' => $this->option_name . '[' . ($id = 'usage-shortcode') . ']',
             'title' => 'Usage',
-            'class' => 'large-text', 
+            'f-class' => 'large-text', 
             'readonly' => true,
             'type' => 'text', 
             'notes' => 'Copy the above shortcode and paste into your posts/pages.' .
@@ -145,7 +145,7 @@ final class USI_Variable_Solutions_Variable {
          $fields[] = array(
             'name' => $this->option_name . '[' . ($id = 'category') . ']',
             'title' => 'Category',
-            'class' => 'regular-text', 
+            'f-class' => 'regular-text', 
             'maxlength' => 24,
             'type' => 'text', 
             'notes' => 'Enter lower case text, no spaces or punctuation except the underscore, 24 characters maximum.',
@@ -156,7 +156,7 @@ final class USI_Variable_Solutions_Variable {
          $fields[] = array(
             'name' => $this->option_name . '[' . ($id = 'variable') . ']',
             'title' => 'Variable',
-            'class' => 'regular-text', 
+            'f-class' => 'regular-text', 
             'maxlength' => 64,
             'type' => 'text', 
             'notes' => 'Enter lower case text, no spaces or punctuation except the underscore, 64 characters maximum.',
@@ -167,7 +167,7 @@ final class USI_Variable_Solutions_Variable {
          $fields[] = array(
             'name' => $this->option_name . '[' . ($id = 'value') . ']',
             'title' => $label,
-            'class' => 'regular-text', 
+            'f-class' => 'large-text', 
             'type' => 'textarea', 
             'notes' => $notes ,
             'readonly' => $this->disable_save,
@@ -177,7 +177,7 @@ final class USI_Variable_Solutions_Variable {
          $fields[] = array(
             'name' => $this->option_name . '[' . ($id = 'notes') . ']',
             'title' => 'Description / Notes',
-            'class' => 'regular-text', 
+            'f-class' => 'large-text', 
             'type' => 'textarea', 
             'notes' => 'Enter a brief description.',
             'readonly' => $this->readonly,
@@ -187,7 +187,7 @@ final class USI_Variable_Solutions_Variable {
          $fields[] = array(
             'name' => $this->option_name . '[' . ($id = 'order') . ']',
             'title' => 'Order',
-            'class' => 'small-text', 
+            'f-class' => 'small-text', 
             'max' => 9999, 
             'type' => 'number', 
             'notes' => 'Enter integer between 0 and 9999 inclusive.',
@@ -253,23 +253,23 @@ final class USI_Variable_Solutions_Variable {
 
       }
 
-      if ($variable_id || (!$this->error && $updated)) {
-         if (USI_Variable_Solutions_Admin::$variables_edit) {
-            $this->button = __('Save Variable', USI_Variable_Solutions::TEXTDOMAIN);
+      if (($variable_id || (!$this->error && $updated)) && 
+         (USI_Variable_Solutions::$variables_edit || USI_Variable_Solutions::$variables_change)) {
+         $this->button = __('Save Variable', USI_Variable_Solutions::TEXTDOMAIN);
+         if (USI_Variable_Solutions::$variables_edit) {
             $this->header = __('Edit Variable', USI_Variable_Solutions::TEXTDOMAIN);
-            $this->permission = 'Edit-Variables';
-         } else if (USI_Variable_Solutions_Admin::$variables_change) {
-            $this->button = __('Save Value', USI_Variable_Solutions::TEXTDOMAIN);
+            $this->permission = 'edit-variables';
+         } else {
             $this->header = __('Change Value', USI_Variable_Solutions::TEXTDOMAIN);
-            $this->permission = 'Change-Values';
+            $this->permission = 'change-values';
             $this->readonly = true;
-         }
-      } else if (USI_Variable_Solutions_Admin::$variables_add) {
+         } 
+      } else if (USI_Variable_Solutions::$variables_add) {
          $this->button =
          $this->header = __('Add Variable', USI_Variable_Solutions::TEXTDOMAIN);
-         $this->permission = 'Add-Variables';
+         $this->permission = 'add-variables';
       } else {
-         if (!empty($_POST['usi-vs-variable-permission'])) $this->permission = $_POST['usi-vs-variable-permission'];
+         if (!empty($_POST['usi-variable-permission'])) $this->permission = $_POST['usi-variable-permission'];
          $this->button =
          $this->header = null;
       }
@@ -278,10 +278,12 @@ final class USI_Variable_Solutions_Variable {
       // We need it in the menu or the settings API won't allow option changes, so we remove it from the menu
       // if this page isn't active, and if it is active we remove the menu item with jQuery down below;
 
+      $capability = USI_WordPress_Solutions_Capabilities::capability_slug(USI_Variable_Solutions::PREFIX, $this->permission);
+
       add_options_page(
          __('Variable-Solutions', USI_Variable_Solutions::TEXTDOMAIN) . ' | ' . $this->header, // Page <title/> text;
-         '<span id="usi-vs-variable-remove"></span>', // Sidebar menu text; 
-         USI_Variable_Solutions::NAME . '-' . $this->permission, // Capability required to enable page;
+         '<span id="usi-variable-remove"></span>', // Sidebar menu text; 
+         $capability, // Capability required to enable page;
          $this->page_slug, // Settings page menu slug;
          array($this, 'render_page') // Render page callback;
       );
@@ -335,9 +337,9 @@ final class USI_Variable_Solutions_Variable {
 
       } else if (!empty($input['variable_id'])) {
 
-         $permission = !empty($_POST['usi-vs-variable-permission']) ? $_POST['usi-vs-variable-permission'] : null;
+         $permission = !empty($_POST['usi-variable-permission']) ? $_POST['usi-variable-permission'] : null;
 
-         if ('Edit-Variables' == $permission) {
+         if ('edit-variables' == $permission) {
 
             $wpdb->query(
                $wpdb->prepare(
@@ -365,7 +367,7 @@ final class USI_Variable_Solutions_Variable {
             $text = 'Variable saved';
             $warning = true;
 
-         } else if ('Change-Values' == $permission) {
+         } else if ('change-values' == $permission) {
 
             $wpdb->query(
                $wpdb->prepare(
@@ -418,7 +420,7 @@ final class USI_Variable_Solutions_Variable {
 
       if ($warning) {
          ob_start();
-         submit_button(__('Publish', USI_Variable_Solutions::TEXTDOMAIN), 'secondary', 'usi-vs-publish', false);
+         submit_button(__('Publish', USI_Variable_Solutions::TEXTDOMAIN), 'secondary', 'usi-publish', false);
          add_settings_error(
             $this->section_id, // Section id slug;
             'warning', // Message slug name identifier;
@@ -436,7 +438,7 @@ final class USI_Variable_Solutions_Variable {
    } // fields_sanitize();
 
    function filter_option_page_capability() {
-      return(USI_Variable_Solutions::NAME . '-' . $this->permission);
+      return(USI_WordPress_Solutions_Capabilities::capability_slug(USI_Variable_Solutions::PREFIX, $this->permission));
    } // filter_option_page_capability();
 
    function render_page() {
@@ -445,39 +447,39 @@ final class USI_Variable_Solutions_Variable {
 <div class="wrap">
   <h1><?php _e($this->header, USI_Variable_Solutions::TEXTDOMAIN); ?></h1>
   <form method="post" action="options.php">
-    <input name="usi-vs-variable-permission" type="hidden" value="<?php echo $this->permission; ?>" />
+    <input name="usi-variable-permission" type="hidden" value="<?php echo $this->permission; ?>" />
     <?php settings_fields($this->section_id); do_settings_sections($this->page_slug); ?>
     <div class="submit">
       <?php 
          submit_button(__($this->button, USI_Variable_Solutions::TEXTDOMAIN), 'primary', 'submit', false, $this->disable_save ? 'disabled' : null); 
          echo ' &nbsp; ';
-         submit_button(__('Back To List', USI_Variable_Solutions::TEXTDOMAIN), 'secondary', 'usi-vs-variables', false); 
+         submit_button(__('Back To List', USI_Variable_Solutions::TEXTDOMAIN), 'secondary', 'usi-variables', false); 
          echo ' &nbsp; '; 
-         if (USI_Variable_Solutions_Admin::$variables_add && ('Add-Variables' != $this->permission)) 
+         if (USI_Variable_Solutions::$variables_add && ('add-variables' != $this->permission)) 
             submit_button(__('Add Variable', USI_Variable_Solutions::TEXTDOMAIN), 'secondary', $this->page_slug . '-add', false); 
          echo ' &nbsp; '; 
-         if (USI_Variable_Solutions_Admin::$variables_publish && ('Add-Variables' != $this->permission)) 
-            submit_button(__('Publish', USI_Variable_Solutions::TEXTDOMAIN), 'secondary', 'usi-vs-publish', false); 
+         if (USI_Variable_Solutions::$variables_publish && ('add-variables' != $this->permission)) 
+            submit_button(__('Publish', USI_Variable_Solutions::TEXTDOMAIN), 'secondary', 'usi-publish', false); 
       ?>
     </div>
   </form>
 </div>
 <script>
 jQuery(document).ready(function($) {
-   $('#usi-vs-publish').click(function() {
+   $('#usi-publish').click(function() {
       window.location.href = 'options-general.php?page=usi-variable-settings&tab=publish';
       return(false);
    });
 
-   $('#usi-vs-variable-remove').parent().remove();
+   $('#usi-variable-remove').parent().remove();
 
-   $('#usi-vs-variables').click(function() {
-      window.location.href = 'admin.php?page=usi-vs-variables';
+   $('#usi-variables').click(function() {
+      window.location.href = 'admin.php?page=usi-variable-list';
       return(false);
    });
 
-   $('#usi-vs-variable-add').click(function() {
-      window.location.href = 'options-general.php?page=usi-vs-variable';
+   $('#usi-variable-add').click(function() {
+      window.location.href = 'options-general.php?page=usi-variable';
       return(false);
    });
 

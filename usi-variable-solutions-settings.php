@@ -22,7 +22,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
-   const VERSION = '2.1.0 (2020-02-21)';
+   const VERSION = '2.2.0 (2020-06-16)';
 
    protected $is_tabbed = true;
 
@@ -35,7 +35,6 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
             'text_domain' => USI_Variable_Solutions::TEXTDOMAIN,
             'options' => USI_Variable_Solutions::$options,
             'capabilities' => USI_Variable_Solutions::$capabilities,
-            'file' => str_replace('-settings', '', __FILE__), // Plugin main file, this initializes capabilities on plugin activation;
          )
       );
 
@@ -73,7 +72,8 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
       }
       $input = parent::fields_sanitize($input);
       if ('publish' == (!empty($_REQUEST['usi-variable-tab']) ? $_REQUEST['usi-variable-tab'] : null)) {
-         usi_history('usi-variable-solutions:publish:explaination=' . $input['publish']['explaination']);
+         USI_WordPress_Solutions_History::history(get_current_user_id(), 'vary', 
+            'Published variables', 0, $input['publish']['explaination']);
          $input['publish']['explaination'] = '';
          $prefix = USI_Variable_Solutions::$options['preferences']['variable-prefix'];
          global $wpdb;
@@ -186,13 +186,13 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
                   'notes' => 'Enter lower case text, no spaces or punctuation. This is the <b>ID</b> in [<b>ID</b> attribute="value"] used to access the variable shortcodes in you content. Defaults to <b>variable</b>.',
                ),
                'shortcode-function' => array(
-                  'class' => 'regular-text', 
+                  'f-class' => 'regular-text', 
                   'type' => 'text', 
                   'label' => 'Shortcode function name',
                   'notes' => 'Enter lower case text, no spaces or punctuation except the underscore. This is the name of the PHP function that executes the variable shortcodes. Defaults to <b>usi_variable_shortcode</b>.',
                ),
                'menu-icon' => array(
-                  'class' => 'regular-text', 
+                  'f-class' => 'regular-text', 
                   'type' => 'text', 
                   'label' => 'Variable list page menu icon',
                   'notes' => 'Enter the dashicons text string, see <a href="https://developer.wordpress.org/resource/dashicons/" target="_blank">developer.wordpress.org/resource/dashicons</a> for choices. Defaults to <b>dashicons-controls-repeat</b>.',
@@ -236,7 +236,7 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
             'label' => 'Publish',
             'settings' => array(
                'explaination' => array(
-                  'class' => 'regular-text', 
+                  'f-class' => 'regular-text', 
                   'type' => 'textarea', 
                   'label' => 'Explaination',
                   'notes' => 'Enter up to 255 printable characters.', 
