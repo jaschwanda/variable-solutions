@@ -19,7 +19,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 final class USI_Variable_Solutions_Variable {
 
-   const VERSION = '2.2.0 (2020-06-16)';
+   const VERSION = '2.3.0 (2020-09-14)';
 
    private $disable_save = false;
    private $error        = false;

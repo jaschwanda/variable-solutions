@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 2.3.0 (2020-09-14) ##
+* Added forced update capabilities to the USI_WordPress_Update class.
+
 ## 2.2.0 (2020-06-16) ##
 * Resolved permission and capability issues, reworked install, activation and deactivation scheme, set all version numbers to same version.
 
