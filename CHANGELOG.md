@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 2.3.1 (2021-01-07) ##
+* Addressed issue with the publish button on the save/edit variable page.
+
 ## 2.3.0 (2020-09-14) ##
 * Added forced update capabilities to the USI_WordPress_Update class.
 

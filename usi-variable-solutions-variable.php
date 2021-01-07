@@ -19,7 +19,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 final class USI_Variable_Solutions_Variable {
 
-   const VERSION = '2.3.0 (2020-09-14)';
+   const VERSION = '2.3.1 (2021-01-07)';
 
    private $disable_save = false;
    private $error        = false;
@@ -419,12 +419,10 @@ final class USI_Variable_Solutions_Variable {
       );
 
       if ($warning) {
-         ob_start();
-         submit_button(__('Publish', USI_Variable_Solutions::TEXTDOMAIN), 'secondary', 'usi-publish', false);
          add_settings_error(
             $this->section_id, // Section id slug;
             'warning', // Message slug name identifier;
-            sprintf(__('Remember to %s your changes', USI_Variable_Solutions::TEXTDOMAIN), ob_get_clean()) . '.', // Message text shown to user;
+            sprintf(__('Remember to %s your changes', USI_Variable_Solutions::TEXTDOMAIN), $this->publish_button()) . '.', // Message text shown to user;
             'notice-warning' // Message type;
          );
       }
@@ -441,6 +439,16 @@ final class USI_Variable_Solutions_Variable {
       return(USI_WordPress_Solutions_Capabilities::capability_slug(USI_Variable_Solutions::PREFIX, $this->permission));
    } // filter_option_page_capability();
 
+   function publish_button() {
+
+      return(
+         '<a class="button button-secondary"href="' 
+         . admin_url('options-general.php?page=usi-variable-settings&tab=publish') . '">'
+         . __('Publish', USI_Variable_Solutions::TEXTDOMAIN) . '</a>'
+      );
+
+   } // publish_button();
+
    function render_page() {
 ?>
 <!-- usi-variable-solutions-variable:render_page:begin ------------------------------------------------------------------------- -->
@@ -455,11 +463,12 @@ final class USI_Variable_Solutions_Variable {
          echo ' &nbsp; ';
          submit_button(__('Back To List', USI_Variable_Solutions::TEXTDOMAIN), 'secondary', 'usi-variables', false); 
          echo ' &nbsp; '; 
-         if (USI_Variable_Solutions::$variables_add && ('add-variables' != $this->permission)) 
+         if (USI_Variable_Solutions::$variables_add && ('add-variables' != $this->permission)) {
             submit_button(__('Add Variable', USI_Variable_Solutions::TEXTDOMAIN), 'secondary', $this->page_slug . '-add', false); 
-         echo ' &nbsp; '; 
-         if (USI_Variable_Solutions::$variables_publish && ('add-variables' != $this->permission)) 
-            submit_button(__('Publish', USI_Variable_Solutions::TEXTDOMAIN), 'secondary', 'usi-publish', false); 
+         }
+         if (USI_Variable_Solutions::$variables_publish && ('add-variables' != $this->permission)) {
+            echo ' &nbsp; ' . $this->publish_button();
+        }
       ?>
     </div>
   </form>
