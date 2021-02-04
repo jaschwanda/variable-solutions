@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 2.3.2 (2021-02-04) ##
+* Added die message if not accessed by WordPress code.
+
 ## 2.3.1 (2021-01-07) ##
 * Addressed issue with the publish button on the save/edit variable page.
 

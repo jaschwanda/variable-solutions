@@ -22,7 +22,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
-   const VERSION = '2.3.0 (2020-09-14)';
+   const VERSION = '2.3.0 (2021-02-04)';
 
    protected $is_tabbed = true;
 
@@ -89,8 +89,11 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
             break;
          }
          $dashes = '------------------------------------------------------------';
-         fwrite($fh, '<?php // ' . $dashes . $dashes . ' //' . PHP_EOL . "define('USI_VARIABLE_SOLUTIONS', '" . 
-            date('Y-m-d H:i:s') . "'); // Location:$location;" . PHP_EOL); 
+         fwrite($fh, ''
+            . '<?php // ' . $dashes . $dashes . ' //' . PHP_EOL 
+            . "defined('ABSPATH') or die('Accesss not allowed.');" . PHP_EOL 
+            . "define('USI_VARIABLE_SOLUTIONS', '" . date('Y-m-d H:i:s') . "'); // Location:$location;" . PHP_EOL
+         ); 
          $SAFE_variable_table = $wpdb->prefix . 'USI_variables';
          $rows = $wpdb->get_results(
             "SELECT * FROM `$SAFE_variable_table` WHERE (`variable_id` > 1)" .
