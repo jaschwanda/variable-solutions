@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 2.4.0 (2021-02-24) ##
+* Set all versions numbers to same version.
+
 ## 2.3.2 (2021-02-04) ##
 * Added die message if not accessed by WordPress code.
 
