@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 2.4.2 (2021-10-31) ##
+* Removed '@' in include file area so errors show up on admin screen.
+
 ## 2.4.1 (2021-10-30) ##
 * Fixed initialization error.
 

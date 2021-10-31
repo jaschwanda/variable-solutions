@@ -15,7 +15,7 @@ Requires at least: 5.0
 Requires PHP:      5.6.25
 Tested up to:      5.3.2
 Text Domain:       usi-variable-solutions
-Version:           2.4.1
+Version:           2.4.2
 */
 
 /*
@@ -43,7 +43,7 @@ if (!is_dir(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions')) {
 
 class USI_Variable_Solutions {
 
-   const VERSION    = '2.4.1 (2021-10-30)';
+   const VERSION    = '2.4.2 (2021-10-31)';
 
    const NAME       = 'Variable-Solutions';
    const PREFIX     = 'usi-variable';
@@ -97,9 +97,9 @@ class USI_Variable_Solutions {
 
       switch ($location = self::get_variables_folder()) {
       default: 
-      case 'plugin': @ include_once('variables.php'); break;
-      case 'root'  : @ include_once(ABSPATH . 'variables.php'); break;
-      case 'theme' : @ include_once(get_theme_root() . '/variables.php'); break;
+      case 'plugin': include_once('variables.php'); break;
+      case 'root'  : include_once(ABSPATH . 'variables.php'); break;
+      case 'theme' : include_once(get_theme_root() . '/variables.php'); break;
       }
 
       if (is_admin()) {
