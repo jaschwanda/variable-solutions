@@ -19,7 +19,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 final class USI_Variable_Solutions_Variable {
 
-   const VERSION = '2.4.0 (2021-02-24)';
+   const VERSION = '2.4.1 (2021-10-30)';
 
    private $disable_save = false;
    private $error        = false;
@@ -127,7 +127,7 @@ final class USI_Variable_Solutions_Variable {
          $this->options['variable'] = '';
          $this->options['order'] = '9999';
          $this->options['type'] = 'V';
-         $this->options['variable_id'] - 0;
+         $this->options['variable_id'] = 0;
 
       }
 

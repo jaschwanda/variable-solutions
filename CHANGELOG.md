@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 2.4.1 (2021-10-30) ##
+* Fixed initialization error.
+
 ## 2.4.0 (2021-02-24) ##
 * Set all versions numbers to same version.
 
