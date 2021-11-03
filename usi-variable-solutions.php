@@ -43,7 +43,7 @@ if (!is_dir(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions')) {
 
 class USI_Variable_Solutions {
 
-   const VERSION    = '2.4.2 (2021-10-31)';
+   const VERSION    = '2.4.2 (2021-11-03)';
 
    const NAME       = 'Variable-Solutions';
    const PREFIX     = 'usi-variable';

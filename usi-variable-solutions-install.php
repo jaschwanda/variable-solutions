@@ -19,7 +19,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 final class USI_Variable_Solutions_Install {
 
-   const VERSION      = '2.4.0 (2021-02-24)';
+   const VERSION      = '2.4.2 (2021-11-03)';
 
    const VERSION_DATA = '1.0';
 
