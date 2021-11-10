@@ -19,7 +19,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 final class USI_Variable_Solutions_Variable {
 
-   const VERSION = '2.4.2 (2021-11-03)';
+   const VERSION = '2.4.3 (2021-11-10)';
 
    private $disable_save = false;
    private $error        = false;
@@ -109,14 +109,17 @@ final class USI_Variable_Solutions_Variable {
             'f-class' => 'large-text', 
             'readonly' => true,
             'type' => 'text', 
-            'notes' => 'Copy the above shortcode and paste into your posts/pages.' .
-               ('date' == $this->options['category'] ? 
-               ' For date-format-string see <a href="http://php.net/manual/en/function.date.php" target="_blank">php.net/manual/en/function.date.php</a>.' : '') ,
-            'value' => '[' . USI_Variable_Solutions::$options['preferences']['shortcode-prefix'] .
-               ('general' == $this->options['category'] ? '' : ' category="' . $this->options['category'] . '"') . 
-               ' item="' .strtolower( $this->options['variable']) . '"' .
-               ('date' == $this->options['category'] ? ' format="date-format-string"' : '') . 
-               ']',
+            'notes' => 'Copy the above shortcode and paste into your posts/pages or use <b>'
+            . USI_Variable_Solutions::$options['preferences']['variable-prefix'] . '_'
+            . ('general' == $this->options['category'] ? '' : $this->options['category'] . '_')
+            . strtoupper($this->options['variable']) . '</b> in your PHP code.'
+            . ('date' == $this->options['category'] ? 
+            ' For date-format-string see <a href="http://php.net/manual/en/function.date.php" target="_blank">php.net/manual/en/function.date.php</a>.' : ''),
+            'value' => '[' . USI_Variable_Solutions::$options['preferences']['shortcode-prefix']
+            . ('general' == $this->options['category'] ? '' : ' category="' . $this->options['category'] . '"') 
+            . ' item="' . strtolower( $this->options['variable']) . '"'
+            . ('date' == $this->options['category'] ? ' format="date-format-string"' : '')
+            . ']',
          );
 
       } else if (!$this->error) {
