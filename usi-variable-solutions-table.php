@@ -21,7 +21,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 final class USI_Variable_Solutions_Table extends WP_List_Table {
 
-   const VERSION = '2.4.2 (2021-11-03)';
+   const VERSION = '2.4.4 (2022-02-22)';
 
    private $all_categories = null;
    private $category = null;

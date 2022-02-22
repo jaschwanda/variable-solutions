@@ -22,7 +22,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
-   const VERSION = '2.4.2 (2021-11-03)';
+   const VERSION = '2.4.4 (2022-02-22)';
 
    protected $is_tabbed = true;
 
