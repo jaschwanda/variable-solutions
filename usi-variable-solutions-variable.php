@@ -19,7 +19,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 final class USI_Variable_Solutions_Variable {
 
-   const VERSION = '2.4.4 (2022-02-22)';
+   const VERSION = '2.4.5 (2022-06-28)';
 
    private $disable_save = false;
    private $error        = false;
@@ -110,7 +110,7 @@ final class USI_Variable_Solutions_Variable {
             'readonly' => true,
             'type' => 'text', 
             'notes' => 'Copy the above shortcode and paste into your posts/pages or use <b>'
-            . USI_Variable_Solutions::$options['preferences']['variable-prefix'] . '_'
+            . USI_Variable_Solutions::$options['preferences']['variable-prefix'] 
             . ('general' == $this->options['category'] ? '' : $this->options['category'] . '_')
             . strtoupper($this->options['variable']) . '</b> in your PHP code.'
             . ('date' == $this->options['category'] ? 
