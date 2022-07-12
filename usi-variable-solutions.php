@@ -15,7 +15,7 @@ Requires at least: 5.0
 Requires PHP:      5.6.25
 Tested up to:      5.3.2
 Text Domain:       usi-variable-solutions
-Version:           2.4.5
+Version:           2.4.6
 */
 
 /*
@@ -43,7 +43,7 @@ if (!is_dir(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions')) {
 
 class USI_Variable_Solutions {
 
-   const VERSION    = '2.4.5 (2022-06-28)';
+   const VERSION    = '2.4.6 (2022-07-12)';
 
    const NAME       = 'Variable-Solutions';
    const PREFIX     = 'usi-variable';
