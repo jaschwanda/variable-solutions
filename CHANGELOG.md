@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 2.4.6 (2022-07-12) ##
+* Fixed menu positioning that was pitching an error.
+
 ## 2.4.5 (2022-06-28) ##
 * Removed extra underscore character.
 

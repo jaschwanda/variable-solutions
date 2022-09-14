@@ -21,7 +21,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 final class USI_Variable_Solutions_Table extends WP_List_Table {
 
-   const VERSION = '2.4.5 (2022-06-28)';
+   const VERSION = '2.4.6 (2022-07-12)';
 
    private $all_categories = null;
    private $category = null;
@@ -70,6 +70,10 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
 
       $capability = USI_WordPress_Solutions_Capabilities::capability_slug(USI_Variable_Solutions::PREFIX, 'view-variables');
 
+      $position   = USI_Variable_Solutions::$options['preferences']['menu-position'];
+
+      if ((0 == $position) || ('null' == $position)) $position = null;
+
       $this->page_hook = add_menu_page(
          __(USI_Variable_Solutions::NAME, USI_Variable_Solutions::TEXTDOMAIN), // Text displayed in <title> when menu is selected;
          __('Variables', USI_Variable_Solutions::TEXTDOMAIN), // Text displayed in menu; 
@@ -77,7 +81,7 @@ final class USI_Variable_Solutions_Table extends WP_List_Table {
          USI_Variable_Solutions::VARYLIST, // Unique slug to of this menu; 
          array($this, 'render_page'), // Function called to render page content;
          USI_Variable_Solutions::$options['preferences']['menu-icon'], // Menu icon;
-         USI_Variable_Solutions::$options['preferences']['menu-position'] // Menu position;
+         $position // Menu position;
       );
 
       add_action('load-' . $this->page_hook, array($this, 'action_load_screen_options'));
