@@ -97,9 +97,9 @@ class USI_Variable_Solutions {
 
       switch ($location = self::get_variables_folder()) {
       default: 
-      case 'plugin': include_once('variables.php'); break;
-      case 'root'  : include_once(ABSPATH . 'variables.php'); break;
-      case 'theme' : include_once(get_theme_root() . '/variables.php'); break;
+      case 'plugin': @ include_once('variables.php'); break;
+      case 'root'  : @ include_once(ABSPATH . 'variables.php'); break;
+      case 'theme' : @ include_once(get_theme_root() . '/variables.php'); break;
       }
 
       if (is_admin()) {
