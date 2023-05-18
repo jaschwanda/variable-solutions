@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 2.4.76 (2023-05-18) ##
+* Modified so no errors thrown if variables.pohp file is not writen.
+
 ## 2.4.6 (2022-07-12) ##
 * Fixed menu positioning that was pitching an error.
 
