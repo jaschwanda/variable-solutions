@@ -17,25 +17,24 @@ Copyright (c) 2020 by Jim Schwanda.
 
 require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-capabilities.php');
 require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-settings.php');
-require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-updates.php');
 require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-versions.php');
 
 class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
-   const VERSION = '2.4.6 (2022-07-12)';
+   const VERSION = '2.4.8 (2023-05-19)';
 
    protected $is_tabbed = true;
 
    function __construct() {
 
       parent::__construct(
-         array(
+         [
             'name' => USI_Variable_Solutions::NAME, 
             'prefix' => USI_Variable_Solutions::PREFIX, 
             'text_domain' => USI_Variable_Solutions::TEXTDOMAIN,
             'options' => USI_Variable_Solutions::$options,
             'capabilities' => USI_Variable_Solutions::$capabilities,
-         )
+         ]
       );
 
    } // __construct();
@@ -171,86 +170,84 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
    function sections() {
 
-      $sections = array(
-         'preferences' => array(
-            'header_callback' => array($this, 'config_section_header_preferences'),
+      $sections = [
+         'preferences' => [
+            'header_callback' => [$this, 'config_section_header_preferences'],
             'label' => 'Preferences',
             'localize_labels' => 'yes',
             'localize_notes' => 3, // <p class="description">__()</p>;
-            'settings' => array(
-               'variable-prefix' => array(
+            'settings' => [
+               'variable-prefix' => [
                   'type' => 'text', 
                   'label' => 'Variable prefix',
                   'notes' => 'Enter lower case text, no spaces or punctuation except the underscore. This is the string that prefixes <b>variable</b> in the <b>define(variable, "value")</b> statements in the variables.php file and is used to ensure that your variable names are unique. Defaults to the WordPress database prefix.',
-               ),
-               'shortcode-prefix' => array(
+               ],
+               'shortcode-prefix' => [
                   'type' => 'text', 
                   'label' => 'Shortcode identifier',
                   'notes' => 'Enter lower case text, no spaces or punctuation. This is the <b>ID</b> in [<b>ID</b> attribute="value"] used to access the variable shortcodes in you content. Defaults to <b>variable</b>.',
-               ),
-               'shortcode-function' => array(
+               ],
+               'shortcode-function' => [
                   'f-class' => 'regular-text', 
                   'type' => 'text', 
                   'label' => 'Shortcode function name',
                   'notes' => 'Enter lower case text, no spaces or punctuation except the underscore. This is the name of the PHP function that executes the variable shortcodes. Defaults to <b>usi_variable_shortcode</b>.',
-               ),
-               'menu-icon' => array(
+               ],
+               'menu-icon' => [
                   'f-class' => 'regular-text', 
                   'type' => 'text', 
                   'label' => 'Variable list page menu icon',
                   'notes' => 'Enter the dashicons text string, see <a href="https://developer.wordpress.org/resource/dashicons/" target="_blank">developer.wordpress.org/resource/dashicons</a> for choices. Defaults to <b>dashicons-controls-repeat</b>.',
-               ),
-               'menu-position' => array(
+               ],
+               'menu-position' => [
                   'type' => 'text', 
                   'label' => 'Variable list page menu position',
                   'notes' => 'Enter a numeric value, blank or null appends the menu item to the bottom of the menu. Defaults to <b>null</b>.',
-               ),
-               'file-location' => array(
+               ],
+               'file-location' => [
                   'type' => 'radio', 
                   'label' => 'Location of variables.php file',
-                  'choices' => array(
-                     array(
+                  'choices' => [
+                     [
                         'value' => 'plugin', 
                         'label' => true, 
                         'notes' => __('Plugin folder', USI_Variable_Solutions::TEXTDOMAIN), 
                         'suffix' => ' &nbsp; &nbsp; &nbsp; ',
-                     ),
-                     array(
+                     ],
+                     [
                         'value' => 'theme', 
                         'label' => true, 
                         'notes' => __('Theme folder', USI_Variable_Solutions::TEXTDOMAIN), 
                         'suffix' => ' &nbsp; &nbsp; &nbsp; ',
-                     ),
-                     array(
+                     ],
+                     [
                         'value' => 'root', 
                         'label' => true, 
                         'notes' => __('WordPress wp-config.php folder', USI_Variable_Solutions::TEXTDOMAIN), 
-                     ),
-                  ),
+                     ],
+                  ],
                   'notes' => 'Defaults to <b>Plugin folder</b>.',
-               ), // file-location;
-            ),
-         ), // preferences;
+               ], // file-location;
+            ], // settings;
+         ], // preferences;
 
          'capabilities' => new USI_WordPress_Solutions_Capabilities($this),
 
-         'publish' => array(
-            'header_callback' => array($this, 'config_section_header_publish'),
+         'publish' => [
+            'header_callback' => [$this, 'config_section_header_publish'],
             'label' => 'Publish',
-            'settings' => array(
-               'explaination' => array(
+            'settings' => [
+               'explaination' => [
                   'f-class' => 'regular-text', 
                   'type' => 'textarea', 
                   'label' => 'Explaination',
                   'notes' => 'Enter up to 255 printable characters.', 
-               ),
-            ),
+               ],
+            ],
             'submit' => __('Publish Variables', USI_Variable_Solutions::TEXTDOMAIN),
-         ), // publish;
+         ], // publish;
 
-         'updates' => new USI_WordPress_Solutions_Updates($this),
-
-      );
+      ]; // sections;
 
       return($sections);
 

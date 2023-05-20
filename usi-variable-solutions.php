@@ -15,7 +15,7 @@ Requires at least: 5.0
 Requires PHP:      5.6.25
 Tested up to:      5.3.2
 Text Domain:       usi-variable-solutions
-Version:           2.4.7
+Version:           2.4.8
 */
 
 /*
@@ -43,7 +43,7 @@ if (!is_dir(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions')) {
 
 class USI_Variable_Solutions {
 
-   const VERSION    = '2.4.7 (2023-05-18)';
+   const VERSION    = '2.4.8 (2023-05-19)';
 
    const NAME       = 'Variable-Solutions';
    const PREFIX     = 'usi-variable';
@@ -115,10 +115,6 @@ class USI_Variable_Solutions {
 
          if (!defined('WP_UNINSTALL_PLUGIN')) {
             require_once('usi-variable-solutions-settings.php'); 
-            if (!empty(USI_Variable_Solutions::$options['updates']['git-update'])) {
-               require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-update.php');
-               new USI_WordPress_Solutions_Update_GitHub(__FILE__, 'jaschwanda', 'variable-solutions', null, !empty(USI_Variable_Solutions::$options['updates']['force-update']));
-            }
          }
 
       }
