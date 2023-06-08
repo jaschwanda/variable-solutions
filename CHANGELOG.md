@@ -2,6 +2,9 @@
 
 Variable-Solutions plugin changes are logged here using <a href="http://semver.org/">Semantic Versioning</a>.
 
+## 2.4.9 (2023-06-08) ##
+* Added e-mail variables and obfuscation.
+
 ## 2.4.8 (2023-05-19) ##
 * Removed GitHub update functionality.
 

@@ -21,7 +21,7 @@ require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-s
 
 class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
-   const VERSION = '2.4.8 (2023-05-19)';
+   const VERSION = '2.4.9 (2023-06-08)';
 
    protected $is_tabbed = true;
 
@@ -110,8 +110,8 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
          $shortcode_function = USI_Variable_Solutions::$options['preferences']['shortcode-function'];
 
          fwrite($fh, 'function ' . $shortcode_function . '($attributes, $content = null) {' . PHP_EOL);
-         fwrite($fh, '   $category = !empty($attributes[\'category\']) ? $attributes[\'category\'] : null;' . PHP_EOL);
-         fwrite($fh, '   $item = !empty($attributes[\'item\']) ? $attributes[\'item\'] : null;' . PHP_EOL);
+         fwrite($fh, '   $category = $attributes[\'category\'] ?? null;' . PHP_EOL);
+         fwrite($fh, '   $item     = $attributes[\'item\']     ?? null;' . PHP_EOL);
          fwrite($fh, '   switch ($category) {' . PHP_EOL);
          
          $old_category = null;
@@ -120,13 +120,19 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
                $this->fields_sanitize_publish($fh, $old_category);
                if ('general' == $row->category) fwrite($fh, "   default:" . PHP_EOL);
                fwrite($fh, "   case '{$row->category}':" . PHP_EOL);
+               if ('email' == $row->category) fwrite($fh, '      $email = null;' . PHP_EOL);
                fwrite($fh, '      switch ($item) {' . PHP_EOL);
                $old_category = $row->category;
             }
             $variable = $prefix . (('general' == $row->category) ? '' : $row->category . '_') . strtoupper($row->variable);
-            if ('date' == $row->category) {
-               fwrite($fh, "      case '" . $row->variable . '\': $time = ' . $variable . '; break;' . PHP_EOL);
-            } else {
+            switch($row->category) {
+            case 'date':
+               fwrite($fh, "      case '{$row->variable}': \$time = $variable; break;" . PHP_EOL);
+               break;
+            case 'email':
+               fwrite($fh, "      case '{$row->variable}': \$email = $variable; break;" . PHP_EOL);
+               break;
+            default:
                fwrite($fh, "      case '{$row->variable}': return($variable);" . PHP_EOL);
             }
          }
@@ -147,6 +153,14 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
          if ('date' == $old_category) {
             fwrite($fh, '      if (!empty($attributes[\'format\'])) $time = date($attributes[\'format\'], ' .
                'strtotime($time));' . PHP_EOL . '      return($time);' . PHP_EOL);
+         } else if ('email' == $old_category) {
+            fwrite($fh, '      if (!$email) break;' . PHP_EOL);
+            fwrite($fh, '      $class   = empty($attributes[\'class\']) ? null : \' class="\' . $attributes[\'class\'] . \'"\';' . PHP_EOL);
+            fwrite($fh, '      $options = explode(\'|\', $email);' . PHP_EOL);
+            fwrite($fh, '      $address = $options[0];' . PHP_EOL);
+            fwrite($fh, '      $display = $options[1] ?? $address;' . PHP_EOL);
+            fwrite($fh, '      $subject = $options[2] ?? null;' . PHP_EOL);
+            fwrite($fh, '      return(\'<a\' . $class . \' href="mailto:\' . $address . \'">\' . $display . \'</a>\');' . PHP_EOL);
          } else {
             fwrite($fh, '      break;' . PHP_EOL);
          }
