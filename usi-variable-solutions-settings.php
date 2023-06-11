@@ -155,12 +155,12 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
                'strtotime($time));' . PHP_EOL . '      return($time);' . PHP_EOL);
          } else if ('email' == $old_category) {
             fwrite($fh, '      if (!$email) break;' . PHP_EOL);
-            fwrite($fh, '      $class   = empty($attributes[\'class\']) ? null : \' class="\' . $attributes[\'class\'] . \'"\';' . PHP_EOL);
+            fwrite($fh, '      $class   = empty($attributes[\'class\'])   ? null : \' class="\'  . $attributes[\'class\']   . \'"\';' . PHP_EOL);
+            fwrite($fh, '      $subject = empty($attributes[\'subject\']) ? null : \'?subject=\' . $attributes[\'subject\'] . \'"\';' . PHP_EOL);
             fwrite($fh, '      $options = explode(\'|\', $email);' . PHP_EOL);
             fwrite($fh, '      $address = $options[0];' . PHP_EOL);
-            fwrite($fh, '      $display = $options[1] ?? $address;' . PHP_EOL);
-            fwrite($fh, '      $subject = $options[2] ?? null;' . PHP_EOL);
-            fwrite($fh, '      return(\'<a\' . $class . \' href="mailto:\' . $address . \'">\' . $display . \'</a>\');' . PHP_EOL);
+            fwrite($fh, '      $display = !empty($options[1]) ? $options[1] : $address;' . PHP_EOL);
+            fwrite($fh, '      return(($options[2] ?? null) . \'<a\' . $class . \' href="mailto:\' . $address . $subject . \'">\' . $display . \'</a>\' . ($options[3] ?? null));' . PHP_EOL);
          } else {
             fwrite($fh, '      break;' . PHP_EOL);
          }
