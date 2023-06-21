@@ -109,9 +109,9 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
          $shortcode_function = USI_Variable_Solutions::$options['preferences']['shortcode-function'];
 
-         fwrite($fh, 'function ' . $shortcode_function . '($attributes, $content = null) {' . PHP_EOL);
-         fwrite($fh, '   $category = $attributes[\'category\'] ?? null;' . PHP_EOL);
-         fwrite($fh, '   $item     = $attributes[\'item\']     ?? null;' . PHP_EOL);
+         fwrite($fh, 'function ' . $shortcode_function . '($attr, $content = null) {' . PHP_EOL);
+         fwrite($fh, '   $category = $attr[\'category\'] ?? null;' . PHP_EOL);
+         fwrite($fh, '   $item     = $attr[\'item\']     ?? null;' . PHP_EOL);
          fwrite($fh, '   switch ($category) {' . PHP_EOL);
          
          $old_category = null;
@@ -120,7 +120,6 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
                $this->fields_sanitize_publish($fh, $old_category);
                if ('general' == $row->category) fwrite($fh, "   default:" . PHP_EOL);
                fwrite($fh, "   case '{$row->category}':" . PHP_EOL);
-               if ('email' == $row->category) fwrite($fh, '      $email = null;' . PHP_EOL);
                fwrite($fh, '      switch ($item) {' . PHP_EOL);
                $old_category = $row->category;
             }
@@ -140,7 +139,6 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
          fwrite($fh, '   }' . PHP_EOL);
          fwrite($fh, '   return(\'bad request:item=\' . $item);' . PHP_EOL);
          fwrite($fh, '} // ' . $shortcode_function . '();' . PHP_EOL);
-         
          fwrite($fh, '// ---' . $dashes .$dashes . ' // ?>' . PHP_EOL);
          fclose($fh);
       }
@@ -149,18 +147,21 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
    function fields_sanitize_publish($fh, $old_category) {
       if ($old_category) {
+         if ('email' == $old_category) {
+            fwrite($fh, '      default: break 2;' . PHP_EOL);
+         }
          fwrite($fh, '      }' . PHP_EOL);
          if ('date' == $old_category) {
-            fwrite($fh, '      if (!empty($attributes[\'format\'])) $time = date($attributes[\'format\'], ' .
+            fwrite($fh, '      if (!empty($attr[\'format\'])) $time = date($attr[\'format\'], ' .
                'strtotime($time));' . PHP_EOL . '      return($time);' . PHP_EOL);
          } else if ('email' == $old_category) {
-            fwrite($fh, '      if (!$email) break;' . PHP_EOL);
-            fwrite($fh, '      $class   = empty($attributes[\'class\'])   ? null : \' class="\'  . $attributes[\'class\']   . \'"\';' . PHP_EOL);
-            fwrite($fh, '      $subject = empty($attributes[\'subject\']) ? null : \'?subject=\' . $attributes[\'subject\'] . \'"\';' . PHP_EOL);
-            fwrite($fh, '      $options = explode(\'|\', $email);' . PHP_EOL);
-            fwrite($fh, '      $address = $options[0];' . PHP_EOL);
-            fwrite($fh, '      $display = !empty($options[1]) ? $options[1] : $address;' . PHP_EOL);
-            fwrite($fh, '      return(($options[2] ?? null) . \'<a\' . $class . \' href="mailto:\' . $address . $subject . \'">\' . $display . \'</a>\' . ($options[3] ?? null));' . PHP_EOL);
+            fwrite($fh, '      list($email, $content, $prefix, $suffix) = explode(\'|\', $email);' . PHP_EOL);
+            fwrite($fh, '      $args = [\'email\' => $email];' . PHP_EOL);
+            fwrite($fh, '      if (!empty($attr[\'class\']))   $args[\'class\']   = $attr[\'class\'];'   . PHP_EOL);
+            fwrite($fh, '      if (!empty($attr[\'id\']))      $args[\'id\']      = $attr[\'id\'];'      . PHP_EOL);
+            fwrite($fh, '      if (!empty($attr[\'style\']))   $args[\'style\']   = $attr[\'style\'];'   . PHP_EOL);
+            fwrite($fh, '      if (!empty($attr[\'subject\'])) $args[\'subject\'] = $attr[\'subject\'];' . PHP_EOL);
+            fwrite($fh, '      return($prefix . USI_WordPress_Solutions::shortcode_email($args, $content) . $suffix);' . PHP_EOL);
          } else {
             fwrite($fh, '      break;' . PHP_EOL);
          }
