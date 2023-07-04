@@ -2,26 +2,13 @@
 
 defined('ABSPATH') or die('Accesss not allowed.');
 
-/*
-Variable-Solutions is free software: you can redistribute it and/or modify it under the terms of the GNU General Public 
-License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- 
-Variable-Solutions is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
-warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License along with Variable-Solutions. If not, see 
-https://github.com/jaschwanda/variable-solutions/blob/master/LICENSE.md
-
-Copyright (c) 2020 by Jim Schwanda.
-*/
-
-require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-capabilities.php');
-require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-settings.php');
-require_once(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions/usi-wordpress-solutions-versions.php');
+require_once(WP_PLUGIN_DIR . '/usi-wordpress-solutions/usi-wordpress-solutions-capabilities.php');
+require_once(WP_PLUGIN_DIR . '/usi-wordpress-solutions/usi-wordpress-solutions-settings.php');
+require_once(WP_PLUGIN_DIR . '/usi-wordpress-solutions/usi-wordpress-solutions-versions.php');
 
 class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
-   const VERSION = '2.4.9 (2023-06-08)';
+   const VERSION = '2.5.0 (2023-07-04)';
 
    protected $is_tabbed = true;
 
@@ -29,47 +16,52 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
       parent::__construct(
          [
+            'capabilities' => USI_Variable_Solutions::$capabilities,
             'name' => USI_Variable_Solutions::NAME, 
+            'options' => USI_Variable_Solutions::$options,
             'prefix' => USI_Variable_Solutions::PREFIX, 
             'text_domain' => USI_Variable_Solutions::TEXTDOMAIN,
-            'options' => USI_Variable_Solutions::$options,
-            'capabilities' => USI_Variable_Solutions::$capabilities,
          ]
       );
 
    } // __construct();
 
-   function config_section_header_preferences() {
-      echo '<p>' . __('Changing these settings after the system is in use may cause referencing errors. Make sure that you also change the <b>[ID attribute="value"]</b> shortcodes in your content and the <b>defined(variable, "value")</b> statments in your PHP files to match the settings you enter here.', USI_Variable_Solutions::TEXTDOMAIN) . '</p>' . PHP_EOL;
-   } // config_section_header_preferences();
-
-   function config_section_header_publish() {
-      if ('root' == ($folder = USI_Variable_Solutions::get_variables_folder())) $folder = 'WordPress wp-config.php';
-      echo '<p>' . sprintf(__('Enter an explaination for publishing the variables and click on the <b>Publish Variables</b> button. The variables.php file will be published in the %s folder.', USI_Variable_Solutions::TEXTDOMAIN), $folder) . '</p>' . PHP_EOL;
-   } // config_section_header_publish();
-
    function fields_sanitize($input) {
-      if (!empty($input['preferences']['menu-icon'])) {
-         $input['preferences']['menu-icon'] = sanitize_title(strtolower($input['preferences']['menu-icon']));
-      } else {
+
+      if (empty($input['preferences']['menu-icon'])) {
          $input['preferences']['menu-icon'] = 'dashicons-controls-repeat';
+      } else {
+         $input['preferences']['menu-icon'] = sanitize_title(strtolower($input['preferences']['menu-icon']));
       }
-      if (!empty($input['preferences']['menu-position'])) {
+
+      if (empty($input['preferences']['menu-position'])) {
+         $input['preferences']['menu-position'] = 'null';
+      } else {
          $input['preferences']['menu-position'] = (int)$input['preferences']['menu-position'];
          if (0 == $input['preferences']['menu-position']) $input['preferences']['menu-position'] = 'null';
-      } else {
-         $input['preferences']['menu-position'] = 'null';
       }
-      if (!empty($input['preferences']['shortcode-function'])) {
+
+      if (empty($input['preferences']['shortcode-function'])) {
+         $input['preferences']['shortcode-function'] = 'usi_variable_shortcode';
+      } else {
          $input['preferences']['shortcode-function'] = sanitize_title(strtolower($input['preferences']['shortcode-function']));
       }
-      if (!empty($input['preferences']['shortcode-prefix'])) {
+
+      if (empty($input['preferences']['shortcode-prefix'])) {
+         $input['preferences']['shortcode-prefix'] = 'variable';
+      } else {
          $input['preferences']['shortcode-prefix'] = sanitize_title(strtolower($input['preferences']['shortcode-prefix']));
       }
-      if (!empty($input['preferences']['variable-prefix'])) {
+
+      if (empty($input['preferences']['variable-prefix'])) {
+         global $wpdb;
+         $input['preferences']['variable-prefix'] = $wpdb->prefix;
+      } else {
          $input['preferences']['variable-prefix'] = sanitize_title(strtolower($input['preferences']['variable-prefix']));
       }
+
       $input = parent::fields_sanitize($input);
+
       if ('publish' == (!empty($_REQUEST['usi-variable-tab']) ? $_REQUEST['usi-variable-tab'] : null)) {
          USI_WordPress_Solutions_History::history(get_current_user_id(), 'vary', 
             'Published variables', 0, $input['publish']['explaination']);
@@ -185,43 +177,46 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
 
    function sections() {
 
+      if ('root' == ($folder = USI_Variable_Solutions::get_variables_folder())) $folder = 'WordPress wp-config.php';
+      $publish  = '<p style="text-align:justify;">' . sprintf(__('Enter an explaination for publishing the variables and click on the <b>Publish Variables</b> button. The variables.php file will be published in the %s folder.', USI_Variable_Solutions::TEXTDOMAIN), $folder) . '</p>' . PHP_EOL;
+
       $sections = [
          'preferences' => [
-            'header_callback' => [$this, 'config_section_header_preferences'],
+            'header_callback' => [$this, 'sections_header', '    <p style="text-align:justify;">' . __('Changing these settings after the system is in use may cause referencing errors. Make sure that you also change the <b>[ID attribute="value"]</b> shortcodes in your content and the <b>defined(variable, "value")</b> statments in your PHP files to match the settings you enter here.', USI_Variable_Solutions::TEXTDOMAIN) . '</p>' . PHP_EOL],
             'label' => 'Preferences',
             'localize_labels' => 'yes',
             'localize_notes' => 3, // <p class="description">__()</p>;
             'settings' => [
                'variable-prefix' => [
                   'type' => 'text', 
-                  'label' => 'Variable prefix',
+                  'label' => 'Variable Prefix',
                   'notes' => 'Enter lower case text, no spaces or punctuation except the underscore. This is the string that prefixes <b>variable</b> in the <b>define(variable, "value")</b> statements in the variables.php file and is used to ensure that your variable names are unique. Defaults to the WordPress database prefix.',
                ],
                'shortcode-prefix' => [
                   'type' => 'text', 
-                  'label' => 'Shortcode identifier',
+                  'label' => 'Shortcode Identifier',
                   'notes' => 'Enter lower case text, no spaces or punctuation. This is the <b>ID</b> in [<b>ID</b> attribute="value"] used to access the variable shortcodes in you content. Defaults to <b>variable</b>.',
                ],
                'shortcode-function' => [
                   'f-class' => 'regular-text', 
                   'type' => 'text', 
-                  'label' => 'Shortcode function name',
+                  'label' => 'Shortcode Function Name',
                   'notes' => 'Enter lower case text, no spaces or punctuation except the underscore. This is the name of the PHP function that executes the variable shortcodes. Defaults to <b>usi_variable_shortcode</b>.',
                ],
                'menu-icon' => [
                   'f-class' => 'regular-text', 
                   'type' => 'text', 
-                  'label' => 'Variable list page menu icon',
+                  'label' => 'Variable List Page Menu Icon',
                   'notes' => 'Enter the dashicons text string, see <a href="https://developer.wordpress.org/resource/dashicons/" target="_blank">developer.wordpress.org/resource/dashicons</a> for choices. Defaults to <b>dashicons-controls-repeat</b>.',
                ],
                'menu-position' => [
                   'type' => 'text', 
-                  'label' => 'Variable list page menu position',
+                  'label' => 'Variable List Menu Position',
                   'notes' => 'Enter a numeric value, blank or null appends the menu item to the bottom of the menu. Defaults to <b>null</b>.',
                ],
                'file-location' => [
                   'type' => 'radio', 
-                  'label' => 'Location of variables.php file',
+                  'label' => 'Location of variables.php File',
                   'choices' => [
                      [
                         'value' => 'plugin', 
@@ -241,7 +236,7 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
                         'notes' => __('WordPress wp-config.php folder', USI_Variable_Solutions::TEXTDOMAIN), 
                      ],
                   ],
-                  'notes' => 'Defaults to <b>Plugin folder</b>.',
+                  'notes' => 'Defaults to WordPress <b>wp-config.php</b> folder.',
                ], // file-location;
             ], // settings;
          ], // preferences;
@@ -249,7 +244,7 @@ class USI_Variable_Solutions_Settings extends USI_WordPress_Solutions_Settings {
          'capabilities' => new USI_WordPress_Solutions_Capabilities($this),
 
          'publish' => [
-            'header_callback' => [$this, 'config_section_header_publish'],
+            'header_callback' => [$this, 'sections_header', $publish],
             'label' => 'Publish',
             'settings' => [
                'explaination' => [

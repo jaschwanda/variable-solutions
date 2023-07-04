@@ -5,6 +5,7 @@ defined('ABSPATH') or die('Accesss not allowed.');
 /* 
 Author:            Jim Schwanda
 Author URI:        https://www.usi2solve.com/leader
+Copyright:         2023 by Jim Schwanda.
 Description:       The Variable-Solutions plugin extends WordPress enabling the creation and management of variables that can be referenced as short codes in WordPress content and/or as defined variables in the supporting PHP files. It is a thin plugin that loads only one file when running in end user mode. The Variable-Solutions plugin is developed and maintained by Universal Solutions.
 Donate link:       https://www.usi2solve.com/donate/variable-solutions
 License:           GPL-3.0
@@ -15,35 +16,17 @@ Requires at least: 5.0
 Requires PHP:      5.6.25
 Tested up to:      5.3.2
 Text Domain:       usi-variable-solutions
-Version:           2.4.9
+Version:           2.5.0
+Warranty:          This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
-/*
-Variable-Solutions is free software: you can redistribute it and/or modify it under the terms of the GNU General Public 
-License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- 
-Variable-Solutions is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
-warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License along with Variable-Solutions. If not, see 
-https://github.com/jaschwanda/variable-solutions/blob/master/LICENSE.md
-
-Copyright (c) 2020 by Jim Schwanda.
-*/
-
-// IF required plugins are not available;
-if (!is_dir(plugin_dir_path(__DIR__) . 'usi-wordpress-solutions')) {
-   add_action('admin_notices', function () {
-      global $pagenow;
-      if ('plugins.php' == $pagenow) echo '<div class="notice notice-warning is-dismissible"><p>' . 
-         __('The <b>WordPress-Solutions</b> plugin is required for <b>Variable-Solutions</b> to run properly.') . '</p></div>';
-   });
-   goto END_OF_FILE;
-} // ENDIF required plugins are not available;
+if (!class_exists('USI')) {
+   add_action('admin_notices', function() { echo'<div class="notice notice-error"><p>WordPress-Solutions plugin missing.</p></div>'; }); goto END_OF_FILE;
+}
 
 class USI_Variable_Solutions {
 
-   const VERSION    = '2.4.9 (2023-06-08)';
+   const VERSION    = '2.5.0 (2023-07-04)';
 
    const NAME       = 'Variable-Solutions';
    const PREFIX     = 'usi-variable';
@@ -52,7 +35,7 @@ class USI_Variable_Solutions {
    const VARYADD    = 'usi-variable-add';
    const VARYLIST   = 'usi-variable-list';
 
-   public static $capabilities = array(
+   public static $capabilities = [
       'view-variables'    => 'View Variables|administrator',
       'change-values'     => 'Change Values|administrator',
       'add-variables'     => 'Add Variables|administrator',
@@ -61,9 +44,9 @@ class USI_Variable_Solutions {
       'publish-variables' => 'Publish Variables|administrator',
       'view-settings'     => 'View Settings|administrator',
       'edit-preferences'  => 'Edit Preferences|administrator',
-   );
+   ];
 
-   public static $options = array();
+   public static $options = [];
 
    public static $variables_add     = false;
    public static $variables_change  = false;
@@ -82,7 +65,7 @@ class USI_Variable_Solutions {
 
       if (empty(self::$options)) {
          global $wpdb;
-         $defaults['preferences']['file-location']      = 'plugin';
+         $defaults['preferences']['file-location']      = 'root';
          $defaults['preferences']['menu-icon']          = 'dashicons-controls-repeat';
          $defaults['preferences']['menu-position']      = 'null';
          $defaults['preferences']['shortcode-function'] = 'usi_variable_shortcode';
@@ -91,11 +74,11 @@ class USI_Variable_Solutions {
          self::$options = get_option(self::PREFIX . '-options', $defaults);
       }
 
-      $shortcode_prefix   = USI_Variable_Solutions::$options['preferences']['shortcode-prefix'];
-      $shortcode_function = USI_Variable_Solutions::$options['preferences']['shortcode-function'];
+      $shortcode_prefix   = self::$options['preferences']['shortcode-prefix'];
+      $shortcode_function = self::$options['preferences']['shortcode-function'];
       add_shortcode($shortcode_prefix, $shortcode_function);
 
-      switch ($location = self::get_variables_folder()) {
+      switch (self::get_variables_folder()) {
       default: 
       case 'plugin': @ include_once('variables.php'); break;
       case 'root'  : @ include_once(ABSPATH . 'variables.php'); break;
@@ -103,37 +86,20 @@ class USI_Variable_Solutions {
       }
 
       if (is_admin()) {
-
-         self::$variables_add     = USI_WordPress_Solutions_Capabilities::current_user_can(self::PREFIX, 'add-variables');
-         self::$variables_change  = USI_WordPress_Solutions_Capabilities::current_user_can(self::PREFIX, 'change-values');
-         self::$variables_delete  = USI_WordPress_Solutions_Capabilities::current_user_can(self::PREFIX, 'delete-variables');
-         self::$variables_edit    = USI_WordPress_Solutions_Capabilities::current_user_can(self::PREFIX, 'edit-variables');
-         self::$variables_publish = USI_WordPress_Solutions_Capabilities::current_user_can(self::PREFIX, 'publish-variables');
-
-         require_once('usi-variable-solutions-table.php');
-         require_once('usi-variable-solutions-variable.php');
-
-         if (!defined('WP_UNINSTALL_PLUGIN')) {
-            require_once('usi-variable-solutions-settings.php'); 
-         }
-
-      }
+         require_once('usi-variable-solutions-admin.php');
+         // Fires after the plugin is activated;
+         register_activation_hook(__FILE__, ['USI_Variable_Solutions', '_activation']);
+      } // ENDIF is_admin();
 
    } // _init();
 
    public static function get_variables_folder() {
-      if (!empty(self::$options['preferences']['file-location'])) {
-         return(self::$options['preferences']['file-location']);
-      }
-      return('plugin');
+      if (!empty(self::$options['preferences']['file-location'])) return(self::$options['preferences']['file-location']);
+      return('root');
    } // get_variables_folder();
 
 } // Class USI_Variable_Solutions;
 
-// Fires after the plugin is activated;
-register_activation_hook(__FILE__, array('USI_Variable_Solutions', '_activation'));
-
-// Fires after WordPress has finished loading but before any headers are sent;
-add_action('init', array('USI_Variable_Solutions', '_init'), 1);
+USI_Variable_Solutions::_init();
 
 END_OF_FILE: // -------------------------------------------------------------------------------------------------------------- // ?>
